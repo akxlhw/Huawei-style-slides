@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "overall_score": 98,
+  "pptx_path": "examples\\output\\allocation-plan\\deck.pptx",
+  "checklist": {
+    "user_code_errors": 0,
+    "engine_bug_errors": 1,
+    "warnings": 0
+  },
+  "verdict": "PASS — 可进入 S5 交付",
+  "user_code_error_detail": [],
+  "engine_bug_detail": [
+    {
+      "slide": 6,
+      "category": "chart_legend_overflow",
+      "message": "Legend/label '12 月' overflows content area RIGHT by 0.47\"",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：chart_legend_overflow"
+    }
+  ],
+  "warnings_detail": []
+}

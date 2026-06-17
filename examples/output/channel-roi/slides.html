@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q3 招聘渠道 ROI 分析</title>
+    <style>
+        /* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   Include this ENTIRE file in every presentation.
+   Slides are authored at 1920×1080 and scaled as a whole.
+   =========================================== */
+
+/* 1. Lock the browser viewport */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 2. Full-window deck viewport */
+.deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 3. Fixed 16:9 design canvas.
+   JavaScript sets transform: translate(...) scale(...). */
+.deck-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    background: var(--slide-bg, #fff);
+}
+
+/* 4. Slides stack inside the fixed stage.
+   Content must be laid out at 1920×1080, not reflowed per device. */
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--slide-bg, #fff);
+}
+
+.slide.active,
+.slide.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+/* 5. Keep media inside authored slide bounds */
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 6. Presentation chrome stays outside the slide design system */
+.deck-controls {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+/* 7. Print one fixed-size slide per page */
+@media print {
+    html,
+    body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+    }
+
+    .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+    }
+
+    .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .deck-controls {
+        display: none !important;
+    }
+}
+
+/* 8. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+}
+
+        :root {
+            --hw-red: #C7000B;
+            --hw-title: #231815;
+            --hw-body: #595757;
+            --hw-white: #FFFFFF;
+            --hw-light-gray: #DCDDDD;
+            --hw-orange: #ED6D00;
+            --hw-yellow: #FCC800;
+            --hw-green: #62B230;
+            --hw-blue: #30B5C5;
+            --font-zh: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+            --font-en: Arial, "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            font-family: var(--font-zh);
+            background: var(--hw-light-gray);
+        }
+
+        /* Override deck-stage host background for Huawei light theme */
+        deck-stage {
+            --stage-bg: var(--hw-light-gray);
+            --slide-bg: var(--hw-white);
+        }
+
+        .slide {
+            background: var(--hw-white);
+            color: var(--hw-body);
+            font-family: var(--font-zh);
+        }
+
+        .slide h1, .slide h2, .slide h3 {
+            color: var(--hw-title);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .accent-red { color: var(--hw-red); }
+        .accent-bg-red { background-color: var(--hw-red); }
+        .accent-bg-blue { background-color: var(--hw-blue); }
+        .accent-bg-yellow { background-color: var(--hw-yellow); }
+        .accent-bg-orange { background-color: var(--hw-orange); }
+        .accent-bg-green { background-color: var(--hw-green); }
+        .accent-bg-gray { background-color: var(--hw-light-gray); }
+
+        .slide-content {
+            position: absolute;
+            inset: 0;
+            width: 1920px;
+            height: 1080px;
+            box-sizing: border-box;
+        }
+
+        /* Animation: elements with .fade-up animate when the slide is active.
+           The deck-stage component toggles [data-deck-active] on the active
+           <section>; we mirror that with a visible class for CSS transitions. */
+        .slide[data-deck-active] .fade-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Source line used by content slides */
+        .slide-source {
+            position: absolute;
+            bottom: 60px;
+            right: 120px;
+            font-size: 20px;
+            color: var(--hw-body);
+            font-family: var(--font-en);
+        }
+
+        /* Utility: top accent bar */
+        .top-accent-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--hw-red);
+        }
+    </style>
+</head>
+<body>
+    <deck-stage width="1920" height="1080">
+        
+        <section class="slide" data-label="1 cover" data-slide-type="cover">
+            <div class="slide-content" style="display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:120px 140px;">
+    <div class="top-accent-bar"></div>
+    <h1 class="fade-up" style="font-size:112px; line-height:1.15; margin-bottom:48px; max-width:1600px;">Q3 招聘渠道 ROI 分析</h1>
+    <p class="fade-up" style="font-size:44px; color:var(--hw-body); margin-bottom:80px;">HR 招聘调配汇报</p>
+    <div class="fade-up" style="margin-top:auto; font-size:28px; color:var(--hw-body);">
+        <span>HR Team</span> · <span>2026</span>
+    </div>
+    <div class="accent-bg-red fade-up" style="position:absolute; top:80px; right:80px; width:16px; height:160px; border-radius:2px;"></div>
+</div>
+        </section>
+        
+        <section class="slide" data-label="2 executive_summary" data-slide-type="executive_summary">
+            <div class="slide-content" style="padding:120px 140px;">
+    <div class="top-accent-bar"></div>
+    <h2 class="fade-up" style="font-size:64px; margin-bottom:56px;">建议停投智联，将预算转向 BOSS 与内推</h2>
+    <p class="fade-up" style="font-size:38px; color:var(--hw-title); margin-bottom:72px; border-left:10px solid var(--hw-red); padding-left:32px; line-height:1.4; max-width:1640px;">
+        建议停投智联，释放预算加投 BOSS 与内推
+    </p>
+    <div style="display:flex; flex-direction:column; gap:36px;">
+        
+        <div class="fade-up" style="display:flex; gap:28px; align-items:flex-start;">
+            <div style="width:18px; height:18px; background:var(--hw-red); border-radius:50%; margin-top:14px; flex-shrink:0;"></div>
+            <div>
+                <div style="font-size:32px; color:var(--hw-title); font-weight:bold; margin-bottom:8px;">招聘完成率 60%</div>
+                <div style="font-size:28px; line-height:1.5;">低于目标 20 个百分点</div>
+            </div>
+        </div>
+        
+        <div class="fade-up" style="display:flex; gap:28px; align-items:flex-start;">
+            <div style="width:18px; height:18px; background:var(--hw-red); border-radius:50%; margin-top:14px; flex-shrink:0;"></div>
+            <div>
+                <div style="font-size:32px; color:var(--hw-title); font-weight:bold; margin-bottom:8px;">技术岗缺口最大</div>
+                <div style="font-size:28px; line-height:1.5;">缺口 30% 集中在后端/Java</div>
+            </div>
+        </div>
+        
+        <div class="fade-up" style="display:flex; gap:28px; align-items:flex-start;">
+            <div style="width:18px; height:18px; background:var(--hw-red); border-radius:50%; margin-top:14px; flex-shrink:0;"></div>
+            <div>
+                <div style="font-size:32px; color:var(--hw-title); font-weight:bold; margin-bottom:8px;">Q4 追赶计划已制定</div>
+                <div style="font-size:28px; line-height:1.5;">预计 12 月底前补齐</div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="slide-source fade-up">来源：HR 数据平台</div>
+    
+</div>
+        </section>
+        
+        <section class="slide" data-label="3 data_table" data-slide-type="data_table">
+            <div class="slide-content" style="padding:120px 140px;">
+    <div class="top-accent-bar"></div>
+    <h2 class="fade-up" style="font-size:64px; margin-bottom:56px;">按 MECE 原则对招聘渠道进行分类</h2>
+    <table class="fade-up" style="width:100%; border-collapse:collapse; font-size:28px; color:var(--hw-body);">
+        <thead>
+            <tr style="background:var(--hw-title); color:var(--hw-white);">
+                
+                <th style="padding:26px 28px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">渠道</th>
+                
+                <th style="padding:26px 28px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">费用</th>
+                
+                <th style="padding:26px 28px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">简历</th>
+                
+                <th style="padding:26px 28px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">面试</th>
+                
+                <th style="padding:26px 28px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">入职</th>
+                
+                <th style="padding:26px 28px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">单入职成本</th>
+                
+                <th style="padding:26px 28px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">性价比</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr style="">
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">BOSS 直聘</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">20,000</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">200</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">32</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">10</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">2,000</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">1.6</td>
+                
+            </tr>
+            
+            <tr style="background:#F7F7F7;">
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">猎聘</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">30,000</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">80</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">20</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">6</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">5,000</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">0.8</td>
+                
+            </tr>
+            
+            <tr style="">
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">内推</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">5,000</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">30</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">15</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">9</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">556</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">3.6</td>
+                
+            </tr>
+            
+            <tr style="background:#F7F7F7;">
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">智联</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">10,000</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">120</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">8</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">0</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">∞</td>
+                
+                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">0</td>
+                
+            </tr>
+            
+        </tbody>
+    </table>
+    
+    <div class="slide-source fade-up">来源：Q3 渠道统计</div>
+    
+</div>
+        </section>
+        
+        <section class="slide" data-label="4 table_insight" data-slide-type="table_insight">
+            <div class="slide-content" style="padding:120px 140px;">
+    <div class="top-accent-bar"></div>
+    <h2 class="fade-up" style="font-size:64px; margin-bottom:48px;">各渠道 ROI 对比与投放效果分析</h2>
+    <div class="fade-up" style="display:flex; gap:48px; align-items:flex-start;">
+        <!-- Table -->
+        <div style="flex:0 0 980px;">
+            <table style="width:100%; border-collapse:collapse; font-size:26px; color:var(--hw-body);">
+                <thead>
+                    <tr style="background:var(--hw-title); color:var(--hw-white);">
+                        
+                        <th style="padding:22px 24px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">环节</th>
+                        
+                        <th style="padding:22px 24px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">数量</th>
+                        
+                        <th style="padding:22px 24px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">转化率</th>
+                        
+                        <th style="padding:22px 24px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">目标</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr style="">
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">渠道曝光</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">10,000</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">100%</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">100%</td>
+                        
+                    </tr>
+                    
+                    <tr style="background:#F7F7F7;">
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">简历投递</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">1,500</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">15%</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">≥10%</td>
+                        
+                    </tr>
+                    
+                    <tr style="">
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">初筛通过</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">600</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">40%</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">30%-50%</td>
+                        
+                    </tr>
+                    
+                    <tr style="background:#F7F7F7;">
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">面试通过</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">180</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">30%</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">25%-40%</td>
+                        
+                    </tr>
+                    
+                    <tr style="">
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">Offer 接受</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">144</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">80%</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">≥75%</td>
+                        
+                    </tr>
+                    
+                    <tr style="background:#F7F7F7;">
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">入职到岗</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">130</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">90%</td>
+                        
+                        <td style="padding:18px 24px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">≥90%</td>
+                        
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+        <!-- Insights -->
+        <div style="flex:1; background:#F7F7F7; border-left:6px solid var(--hw-red); padding:32px; border-radius:4px;">
+            <div style="font-size:28px; font-weight:bold; color:var(--hw-title); margin-bottom:24px;">启示：</div>
+            <div style="display:flex; flex-direction:column; gap:18px;">
+                
+                <div style="display:flex; gap:14px; align-items:flex-start;">
+                    <div style="width:10px; height:10px; background:var(--hw-red); border-radius:50%; margin-top:10px; flex-shrink:0;"></div>
+                    <div style="font-size:24px; color:var(--hw-body); line-height:1.5;">简历投递转化率刚好达标</div>
+                </div>
+                
+                <div style="display:flex; gap:14px; align-items:flex-start;">
+                    <div style="width:10px; height:10px; background:var(--hw-red); border-radius:50%; margin-top:10px; flex-shrink:0;"></div>
+                    <div style="font-size:24px; color:var(--hw-body); line-height:1.5;">面试通过环节低于目标，需优化面试官效率</div>
+                </div>
+                
+                <div style="display:flex; gap:14px; align-items:flex-start;">
+                    <div style="width:10px; height:10px; background:var(--hw-red); border-radius:50%; margin-top:10px; flex-shrink:0;"></div>
+                    <div style="font-size:24px; color:var(--hw-body); line-height:1.5;">Offer 接受率健康</div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-source fade-up">来源：招聘系统 2026Q3</div>
+    
+</div>
+        </section>
+        
+        <section class="slide" data-label="5 matrix_2x2" data-slide-type="matrix_2x2">
+            <div class="slide-content" style="padding:120px 140px;">
+    <div class="top-accent-bar"></div>
+    <h2 class="fade-up" style="font-size:64px; margin-bottom:40px;">渠道贡献度与单位成本二维矩阵</h2>
+    <div class="fade-up" style="position:relative; width:1400px; height:640px; margin:0 auto;">
+        <!-- Axis labels -->
+        
+        <div style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); font-size:24px; color:var(--hw-body);">紧急度</div>
+        <div style="position:absolute; left:-80px; top:50%; transform:rotate(-90deg) translateX(-50%); transform-origin:left center; font-size:24px; color:var(--hw-body);">影响度</div>
+        
+
+        <!-- Grid lines -->
+        <div style="position:absolute; left:50%; top:0; bottom:0; width:2px; background:var(--hw-light-gray);"></div>
+        <div style="position:absolute; top:50%; left:0; right:0; height:2px; background:var(--hw-light-gray);"></div>
+
+        <!-- Quadrants -->
+        
+        
+        
+        <div style="position:absolute; left:0; top:0; width:49.5%; height:49.5%; background:#C7000B20; border:2px solid #C7000B; border-radius:8px; padding:28px; box-sizing:border-box;">
+            <div style="font-size:28px; font-weight:bold; color:#C7000B; margin-bottom:16px;">立即行动</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                
+                <div style="font-size:24px; color:var(--hw-title);">核心架构师</div>
+                
+                <div style="font-size:24px; color:var(--hw-title);">算法负责人</div>
+                
+            </div>
+        </div>
+        
+        
+        
+        <div style="position:absolute; left:50.5%; top:0; width:49.5%; height:49.5%; background:#30B5C520; border:2px solid #30B5C5; border-radius:8px; padding:28px; box-sizing:border-box;">
+            <div style="font-size:28px; font-weight:bold; color:#30B5C5; margin-bottom:16px;">提前布局</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                
+                <div style="font-size:24px; color:var(--hw-title);">校招 Pipeline</div>
+                
+                <div style="font-size:24px; color:var(--hw-title);">高潜储备</div>
+                
+            </div>
+        </div>
+        
+        
+        
+        <div style="position:absolute; left:0; top:50.5%; width:49.5%; height:49.5%; background:#FCC80020; border:2px solid #FCC800; border-radius:8px; padding:28px; box-sizing:border-box;">
+            <div style="font-size:28px; font-weight:bold; color:#FCC800; margin-bottom:16px;">快速解决</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                
+                <div style="font-size:24px; color:var(--hw-title);">实习生</div>
+                
+                <div style="font-size:24px; color:var(--hw-title);">辅助岗</div>
+                
+            </div>
+        </div>
+        
+        
+        
+        <div style="position:absolute; left:50.5%; top:50.5%; width:49.5%; height:49.5%; background:#DCDDDD20; border:2px solid #DCDDDD; border-radius:8px; padding:28px; box-sizing:border-box;">
+            <div style="font-size:28px; font-weight:bold; color:#DCDDDD; margin-bottom:16px;">暂缓/冻结</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                
+                <div style="font-size:24px; color:var(--hw-title);">非关键替补</div>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="slide-source fade-up">来源：HRBP 评估</div>
+    
+</div>
+        </section>
+        
+        <section class="slide" data-label="6 timeline" data-slide-type="timeline">
+            <div class="slide-content" style="padding:120px 140px;">
+    <div class="top-accent-bar"></div>
+    <h2 class="fade-up" style="font-size:64px; margin-bottom:56px;">Q4 渠道预算调整与执行时间表</h2>
+    <div class="fade-up" style="position:relative; margin-top:120px;">
+        <!-- Horizontal line -->
+        <div style="position:absolute; top:24px; left:60px; right:60px; height:4px; background:var(--hw-light-gray);"></div>
+        <div style="display:flex; justify-content:space-between; padding:0 40px;">
+            
+            <div style="display:flex; flex-direction:column; align-items:center; width:220px; position:relative; z-index:1;">
+                <div style="width:52px; height:52px; border-radius:50%; background:var(--hw-blue); display:flex; align-items:center; justify-content:center; color:var(--hw-white); font-weight:bold; font-size:22px; margin-bottom:24px;">1</div>
+                <div style="font-size:22px; color:var(--hw-body); margin-bottom:8px; text-align:center;">10</div>
+                <div style="font-size:24px; font-weight:bold; color:var(--hw-title); text-align:center; margin-bottom:8px;">月 W1</div>
+                <div style="font-size:20px; color:var(--hw-body); text-align:center; line-height:1.4;">优化 JD + 开通猎聘，预计简历 +40%</div>
+            </div>
+            
+            <div style="display:flex; flex-direction:column; align-items:center; width:220px; position:relative; z-index:1;">
+                <div style="width:52px; height:52px; border-radius:50%; background:var(--hw-blue); display:flex; align-items:center; justify-content:center; color:var(--hw-white); font-weight:bold; font-size:22px; margin-bottom:24px;">2</div>
+                <div style="font-size:22px; color:var(--hw-body); margin-bottom:8px; text-align:center;">10</div>
+                <div style="font-size:24px; font-weight:bold; color:var(--hw-title); text-align:center; margin-bottom:8px;">月 W2</div>
+                <div style="font-size:20px; color:var(--hw-body); text-align:center; line-height:1.4;">薪酬特批，Offer 接受率 +20%</div>
+            </div>
+            
+            <div style="display:flex; flex-direction:column; align-items:center; width:220px; position:relative; z-index:1;">
+                <div style="width:52px; height:52px; border-radius:50%; background:var(--hw-blue); display:flex; align-items:center; justify-content:center; color:var(--hw-white); font-weight:bold; font-size:22px; margin-bottom:24px;">3</div>
+                <div style="font-size:22px; color:var(--hw-body); margin-bottom:8px; text-align:center;">10</div>
+                <div style="font-size:24px; font-weight:bold; color:var(--hw-title); text-align:center; margin-bottom:8px;">月 W3</div>
+                <div style="font-size:20px; color:var(--hw-body); text-align:center; line-height:1.4;">面试流程精简，周期 -5 天</div>
+            </div>
+            
+            <div style="display:flex; flex-direction:column; align-items:center; width:220px; position:relative; z-index:1;">
+                <div style="width:52px; height:52px; border-radius:50%; background:var(--hw-blue); display:flex; align-items:center; justify-content:center; color:var(--hw-white); font-weight:bold; font-size:22px; margin-bottom:24px;">4</div>
+                <div style="font-size:22px; color:var(--hw-body); margin-bottom:8px; text-align:center;">11</div>
+                <div style="font-size:24px; font-weight:bold; color:var(--hw-title); text-align:center; margin-bottom:8px;">月 内推</div>
+                <div style="font-size:20px; color:var(--hw-body); text-align:center; line-height:1.4;">内推激励翻倍，入职 +30%</div>
+            </div>
+            
+            <div style="display:flex; flex-direction:column; align-items:center; width:220px; position:relative; z-index:1;">
+                <div style="width:52px; height:52px; border-radius:50%; background:var(--hw-red); display:flex; align-items:center; justify-content:center; color:var(--hw-white); font-weight:bold; font-size:22px; margin-bottom:24px;">5</div>
+                <div style="font-size:22px; color:var(--hw-body); margin-bottom:8px; text-align:center;">12</div>
+                <div style="font-size:24px; font-weight:bold; color:var(--hw-title); text-align:center; margin-bottom:8px;">月</div>
+                <div style="font-size:20px; color:var(--hw-body); text-align:center; line-height:1.4;">复盘：目标达成率评估</div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="slide-source fade-up">来源：招聘计划</div>
+    
+</div>
+        </section>
+        
+        <section class="slide" data-label="7 closing" data-slide-type="closing">
+            <div class="slide-content" style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%;">
+    <div class="top-accent-bar"></div>
+    <h2 class="fade-up" style="font-size:108px; margin-bottom:40px; text-align:center;">谢谢</h2>
+    <p class="fade-up" style="font-size:44px; color:var(--hw-body); text-align:center; max-width:1400px; line-height:1.4;">期待进一步交流</p>
+    <div class="accent-bg-red fade-up" style="width:120px; height:8px; margin-top:80px; border-radius:2px;"></div>
+</div>
+        </section>
+        
+    </deck-stage>
+    <script>
+        /**
+ * <deck-stage> — reusable web component for HTML decks.
+ *
+ * Handles:
+ *  (a) speaker notes — reads <script type="application/json" id="speaker-notes">
+ *      and posts {slideIndexChanged: N} to the parent window on nav.
+ *  (b) keyboard navigation — ←/→, PgUp/PgDn, Space, Home/End, number keys.
+ *  (c) press R to reset to slide 0 (with a tasteful keyboard hint).
+ *  (d) bottom-center overlay showing slide count + hints, fades out on idle.
+ *  (e) auto-scaling — inner canvas is a fixed design size (default 1920×1080)
+ *      scaled with `transform: scale()` to fit the viewport, letterboxed.
+ *      Set the `noscale` attribute to render at authored size (1:1) — the
+ *      PPTX exporter sets this so its DOM capture sees unscaled geometry.
+ *  (f) print — `@media print` lays every slide out as its own page at the
+ *      design size, so the browser's Print → Save as PDF produces a clean
+ *      one-page-per-slide PDF with no extra setup.
+ *
+ * Slides are HIDDEN, not unmounted. Non-active slides stay in the DOM with
+ * `visibility: hidden` + `opacity: 0`, so their state (videos, iframes,
+ *  form inputs, React trees) is preserved across navigation.
+ *
+ * Lifecycle event — the component dispatches a `slidechange` CustomEvent on
+ * itself whenever the active slide changes (including the initial mount).
+ * The event bubbles and composes out of shadow DOM, so you can listen on
+ * the <deck-stage> element or on document:
+ *
+ *   document.querySelector('deck-stage').addEventListener('slidechange', (e) => {
+ *     e.detail.index         // new 0-based index
+ *     e.detail.previousIndex // previous index, or -1 on init
+ *     e.detail.total         // total slide count
+ *     e.detail.slide         // the new active slide element
+ *     e.detail.previousSlide // the prior slide element, or null on init
+ *     e.detail.reason        // 'init' | 'keyboard' | 'click' | 'tap' | 'api'
+ *   });
+ *
+ * Persistence: none at the deck level. The host app keeps the current slide
+ * in its own URL (?slide=) and re-delivers it via location.hash on load, so a
+ * bare load with no hash always starts at slide 1.
+ *
+ * Usage:
+ *   <deck-stage width="1920" height="1080">
+ *     <section data-label="Title">...</section>
+ *     <section data-label="Agenda">...</section>
+ *   </deck-stage>
+ *
+ * Slides are the direct element children of <deck-stage>. Each slide is
+ * automatically tagged with:
+ *   - data-screen-label="NN Label"   (1-indexed, for comment flow)
+ *   - data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text"
+ */
+
+(() => {
+  const DESIGN_W_DEFAULT = 1920;
+  const DESIGN_H_DEFAULT = 1080;
+  const OVERLAY_HIDE_MS = 1800;
+  const VALIDATE_ATTR = 'no_overflowing_text,no_overlapping_text,slide_sized_text';
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+
+  const stylesheet = `
+    :host {
+      position: fixed;
+      inset: 0;
+      display: block;
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .canvas {
+      position: relative;
+      transform-origin: center center;
+      flex-shrink: 0;
+      background: #fff;
+      will-change: transform;
+    }
+
+    /* Slides live in light DOM (via <slot>) so authored CSS still applies.
+       We absolutely position each slotted child to stack them. */
+    ::slotted(*) {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    ::slotted([data-deck-active]) {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    /* Tap zones for mobile — back/forward thirds like Stories.
+       Transparent, no visible UI, don't block the overlay. */
+    .tapzones {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      z-index: 2147482000;
+      pointer-events: none;
+    }
+    .tapzone {
+      flex: 1;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Only activate tap zones on coarse pointers (touch devices). */
+    @media (hover: hover) and (pointer: fine) {
+      .tapzones { display: none; }
+    }
+
+    .overlay {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translate(-50%, 6px) scale(0.92);
+      filter: blur(6px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: #000;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 12px;
+      font-feature-settings: "tnum" 1;
+      letter-spacing: 0.01em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms ease, transform 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease;
+      transform-origin: center bottom;
+      z-index: 2147483000;
+      user-select: none;
+    }
+    .overlay[data-visible] {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0) scale(1);
+      filter: blur(0);
+    }
+
+    .btn {
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 999px;
+      color: rgba(255,255,255,0.72);
+      transition: background 140ms ease, color 140ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .btn:active { background: rgba(255,255,255,0.18); }
+    .btn:focus { outline: none; }
+    .btn:focus-visible { outline: none; }
+    .btn::-moz-focus-inner { border: 0; }
+    .btn svg { width: 14px; height: 14px; display: block; }
+    .btn.reset {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 0 10px 0 12px;
+      gap: 6px;
+      color: rgba(255,255,255,0.72);
+    }
+    .btn.reset .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10px;
+      line-height: 1;
+      color: rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+    }
+
+    .count {
+      font-variant-numeric: tabular-nums;
+      color: #fff;
+      font-weight: 500;
+      padding: 0 8px;
+      min-width: 42px;
+      text-align: center;
+      font-size: 12px;
+    }
+    .count .sep { color: rgba(255,255,255,0.45); margin: 0 3px; font-weight: 400; }
+    .count .total { color: rgba(255,255,255,0.55); }
+
+    .divider {
+      width: 1px;
+      height: 14px;
+      background: rgba(255,255,255,0.18);
+      margin: 0 2px;
+    }
+
+    /* ── Print: one page per slide, no chrome ────────────────────────────
+       The screen layout stacks every slide at inset:0 inside a scaled
+       canvas; for print we want them in document flow at the authored
+       design size so the browser paginates one slide per sheet. The
+       @page size is set from the width/height attributes via the inline
+       <style id="deck-stage-print-page"> that connectedCallback injects
+       into <head> (the @page at-rule has no effect inside shadow DOM). */
+    @media print {
+      :host {
+        position: static;
+        inset: auto;
+        background: none;
+        overflow: visible;
+        color: inherit;
+      }
+      .stage { position: static; display: block; }
+      .canvas {
+        transform: none !important;
+        width: auto !important;
+        height: auto !important;
+        background: none;
+        will-change: auto;
+      }
+      ::slotted(*) {
+        position: relative !important;
+        inset: auto !important;
+        width: var(--deck-design-w) !important;
+        height: var(--deck-design-h) !important;
+        box-sizing: border-box !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto;
+        break-after: page;
+        page-break-after: always;
+        break-inside: avoid;
+        overflow: hidden;
+      }
+      ::slotted(*:last-child) {
+        break-after: auto;
+        page-break-after: auto;
+      }
+      .overlay, .tapzones { display: none !important; }
+    }
+  `;
+
+  class DeckStage extends HTMLElement {
+    static get observedAttributes() { return ['width', 'height', 'noscale']; }
+
+    constructor() {
+      super();
+      this._root = this.attachShadow({ mode: 'open' });
+      this._index = 0;
+      this._slides = [];
+      this._notes = [];
+      this._hideTimer = null;
+      this._mouseIdleTimer = null;
+
+      this._onKey = this._onKey.bind(this);
+      this._onResize = this._onResize.bind(this);
+      this._onSlotChange = this._onSlotChange.bind(this);
+      this._onMouseMove = this._onMouseMove.bind(this);
+      this._onTapBack = this._onTapBack.bind(this);
+      this._onTapForward = this._onTapForward.bind(this);
+    }
+
+    get designWidth() {
+      return parseInt(this.getAttribute('width'), 10) || DESIGN_W_DEFAULT;
+    }
+    get designHeight() {
+      return parseInt(this.getAttribute('height'), 10) || DESIGN_H_DEFAULT;
+    }
+
+    connectedCallback() {
+      this._render();
+      this._loadNotes();
+      this._syncPrintPageRule();
+      window.addEventListener('keydown', this._onKey);
+      window.addEventListener('resize', this._onResize);
+      window.addEventListener('mousemove', this._onMouseMove, { passive: true });
+      // Initial collection + layout happens via slotchange, which fires on mount.
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('keydown', this._onKey);
+      window.removeEventListener('resize', this._onResize);
+      window.removeEventListener('mousemove', this._onMouseMove);
+      if (this._hideTimer) clearTimeout(this._hideTimer);
+      if (this._mouseIdleTimer) clearTimeout(this._mouseIdleTimer);
+    }
+
+    attributeChangedCallback() {
+      if (this._canvas) {
+        this._canvas.style.width = this.designWidth + 'px';
+        this._canvas.style.height = this.designHeight + 'px';
+        this._canvas.style.setProperty('--deck-design-w', this.designWidth + 'px');
+        this._canvas.style.setProperty('--deck-design-h', this.designHeight + 'px');
+        this._fit();
+        this._syncPrintPageRule();
+      }
+    }
+
+    _render() {
+      const style = document.createElement('style');
+      style.textContent = stylesheet;
+
+      const stage = document.createElement('div');
+      stage.className = 'stage';
+
+      const canvas = document.createElement('div');
+      canvas.className = 'canvas';
+      canvas.style.width = this.designWidth + 'px';
+      canvas.style.height = this.designHeight + 'px';
+      canvas.style.setProperty('--deck-design-w', this.designWidth + 'px');
+      canvas.style.setProperty('--deck-design-h', this.designHeight + 'px');
+
+      const slot = document.createElement('slot');
+      slot.addEventListener('slotchange', this._onSlotChange);
+      canvas.appendChild(slot);
+      stage.appendChild(canvas);
+
+      // Tap zones (mobile): left third = back, right third = forward.
+      const tapzones = document.createElement('div');
+      tapzones.className = 'tapzones export-hidden';
+      tapzones.setAttribute('aria-hidden', 'true');
+      tapzones.setAttribute('data-noncommentable', '');
+      const tzBack = document.createElement('div');
+      tzBack.className = 'tapzone tapzone--back';
+      const tzMid = document.createElement('div');
+      tzMid.className = 'tapzone tapzone--mid';
+      tzMid.style.pointerEvents = 'none';
+      const tzFwd = document.createElement('div');
+      tzFwd.className = 'tapzone tapzone--fwd';
+      tzBack.addEventListener('click', this._onTapBack);
+      tzFwd.addEventListener('click', this._onTapForward);
+      tapzones.append(tzBack, tzMid, tzFwd);
+
+      // Overlay: compact, solid black, with clickable controls.
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay export-hidden';
+      overlay.setAttribute('role', 'toolbar');
+      overlay.setAttribute('aria-label', 'Deck controls');
+      overlay.setAttribute('data-noncommentable', '');
+      overlay.innerHTML = `
+        <button class="btn prev" type="button" aria-label="Previous slide" title="Previous (←)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+        </button>
+        <span class="count" aria-live="polite"><span class="current">1</span><span class="sep">/</span><span class="total">1</span></span>
+        <button class="btn next" type="button" aria-label="Next slide" title="Next (→)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+        </button>
+        <span class="divider"></span>
+        <button class="btn reset" type="button" aria-label="Reset to first slide" title="Reset (R)">Reset<span class="kbd">R</span></button>
+      `;
+
+      overlay.querySelector('.prev').addEventListener('click', () => this._go(this._index - 1, 'click'));
+      overlay.querySelector('.next').addEventListener('click', () => this._go(this._index + 1, 'click'));
+      overlay.querySelector('.reset').addEventListener('click', () => this._go(0, 'click'));
+
+      this._root.append(style, stage, tapzones, overlay);
+      this._canvas = canvas;
+      this._slot = slot;
+      this._overlay = overlay;
+      this._countEl = overlay.querySelector('.current');
+      this._totalEl = overlay.querySelector('.total');
+    }
+
+    /** @page must live in the document stylesheet — it's a no-op inside
+     *  shadow DOM. Inject/update a single <head> style tag so the print
+     *  sheet matches the design size and Save-as-PDF yields one slide per
+     *  page with no margins. */
+    _syncPrintPageRule() {
+      const id = 'deck-stage-print-page';
+      let tag = document.getElementById(id);
+      if (!tag) {
+        tag = document.createElement('style');
+        tag.id = id;
+        document.head.appendChild(tag);
+      }
+      tag.textContent =
+        '@page { size: ' + this.designWidth + 'px ' + this.designHeight + 'px; margin: 0; } ' +
+        '@media print { html, body { margin: 0 !important; padding: 0 !important; background: none !important; overflow: visible !important; height: auto !important; } ' +
+        '* { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }';
+    }
+
+    _onSlotChange() {
+      this._collectSlides();
+      this._restoreIndex();
+      this._applyIndex({ showOverlay: false, broadcast: true, reason: 'init' });
+      this._fit();
+    }
+
+    _collectSlides() {
+      const assigned = this._slot.assignedElements({ flatten: true });
+      this._slides = assigned.filter((el) => {
+        // Skip template/style/script nodes even if someone slots them.
+        const tag = el.tagName;
+        return tag !== 'TEMPLATE' && tag !== 'SCRIPT' && tag !== 'STYLE';
+      });
+
+      this._slides.forEach((slide, i) => {
+        const n = i + 1;
+        // Determine a label for comment flow: prefer explicit data-label,
+        // then an existing data-screen-label, then first heading, else "Slide".
+        let label = slide.getAttribute('data-label');
+        if (!label) {
+          const existing = slide.getAttribute('data-screen-label');
+          if (existing) {
+            // Strip any leading number the author may have included.
+            label = existing.replace(/^\s*\d+\s*/, '').trim() || existing;
+          }
+        }
+        if (!label) {
+          const h = slide.querySelector('h1, h2, h3, [data-title]');
+          if (h) label = (h.textContent || '').trim().slice(0, 40);
+        }
+        if (!label) label = 'Slide';
+        slide.setAttribute('data-screen-label', `${pad2(n)} ${label}`);
+
+        // Validation attribute for comment flow / auto-checks.
+        if (!slide.hasAttribute('data-om-validate')) {
+          slide.setAttribute('data-om-validate', VALIDATE_ATTR);
+        }
+
+        slide.setAttribute('data-deck-slide', String(i));
+      });
+
+      if (this._totalEl) this._totalEl.textContent = String(this._slides.length || 1);
+      if (this._index >= this._slides.length) this._index = Math.max(0, this._slides.length - 1);
+    }
+
+    _loadNotes() {
+      const tag = document.getElementById('speaker-notes');
+      if (!tag) { this._notes = []; return; }
+      try {
+        const parsed = JSON.parse(tag.textContent || '[]');
+        if (Array.isArray(parsed)) this._notes = parsed;
+      } catch (e) {
+        console.warn('[deck-stage] Failed to parse #speaker-notes JSON:', e);
+        this._notes = [];
+      }
+    }
+
+    _restoreIndex() {
+      // The host's ?slide= param is delivered as a #<int> hash (1-indexed) on
+      // the iframe src. No hash → slide 1; the deck itself keeps no position
+      // state across loads.
+      const h = (location.hash || '').match(/^#(\d+)$/);
+      if (h) {
+        const n = parseInt(h[1], 10) - 1;
+        if (n >= 0 && n < this._slides.length) this._index = n;
+      }
+    }
+
+    _applyIndex({ showOverlay = true, broadcast = true, reason = 'init' } = {}) {
+      if (!this._slides.length) return;
+      const prev = this._prevIndex == null ? -1 : this._prevIndex;
+      const curr = this._index;
+      // Keep the iframe's own hash in sync so an in-iframe location.reload()
+      // (reload banner path in viewer-handle.ts) lands on the current slide,
+      // not the stale deep-link hash from initial load.
+      try { history.replaceState(null, '', '#' + (curr + 1)); } catch (e) {}
+      this._slides.forEach((s, i) => {
+        if (i === curr) s.setAttribute('data-deck-active', '');
+        else s.removeAttribute('data-deck-active');
+      });
+      if (this._countEl) this._countEl.textContent = String(curr + 1);
+
+      if (broadcast) {
+        // (1) Legacy: host-window postMessage for speaker-notes renderers.
+        try { window.postMessage({ slideIndexChanged: curr }, '*'); } catch (e) {}
+
+        // (2) In-page CustomEvent on the <deck-stage> element itself.
+        //     Bubbles and composes out of shadow DOM so slide code can listen:
+        //       document.querySelector('deck-stage').addEventListener('slidechange', e => {
+        //         e.detail.index, e.detail.previousIndex, e.detail.total, e.detail.slide, e.detail.reason
+        //       });
+        const detail = {
+          index: curr,
+          previousIndex: prev,
+          total: this._slides.length,
+          slide: this._slides[curr] || null,
+          previousSlide: prev >= 0 ? (this._slides[prev] || null) : null,
+          reason: reason, // 'init' | 'keyboard' | 'click' | 'tap' | 'api'
+        };
+        this.dispatchEvent(new CustomEvent('slidechange', {
+          detail,
+          bubbles: true,
+          composed: true,
+        }));
+      }
+
+      this._prevIndex = curr;
+      if (showOverlay) this._flashOverlay();
+    }
+
+    _flashOverlay() {
+      if (!this._overlay) return;
+      this._overlay.setAttribute('data-visible', '');
+      if (this._hideTimer) clearTimeout(this._hideTimer);
+      this._hideTimer = setTimeout(() => {
+        this._overlay.removeAttribute('data-visible');
+      }, OVERLAY_HIDE_MS);
+    }
+
+    _fit() {
+      if (!this._canvas) return;
+      // PPTX export sets noscale so the DOM capture sees authored-size
+      // geometry — the scaled canvas is in shadow DOM, so the exporter's
+      // resetTransformSelector can't reach .canvas.style.transform directly.
+      if (this.hasAttribute('noscale')) {
+        this._canvas.style.transform = 'none';
+        return;
+      }
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const s = Math.min(vw / this.designWidth, vh / this.designHeight);
+      this._canvas.style.transform = `scale(${s})`;
+    }
+
+    _onResize() { this._fit(); }
+
+    _onMouseMove() {
+      // Keep overlay visible while mouse moves; hide after idle.
+      this._flashOverlay();
+    }
+
+    _onTapBack(e) {
+      e.preventDefault();
+      this._go(this._index - 1, 'tap');
+    }
+
+    _onTapForward(e) {
+      e.preventDefault();
+      this._go(this._index + 1, 'tap');
+    }
+
+    _onKey(e) {
+      // Ignore when the user is typing.
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const key = e.key;
+      let handled = true;
+
+      if (key === 'ArrowRight' || key === 'PageDown' || key === ' ' || key === 'Spacebar') {
+        this._go(this._index + 1, 'keyboard');
+      } else if (key === 'ArrowLeft' || key === 'PageUp') {
+        this._go(this._index - 1, 'keyboard');
+      } else if (key === 'Home') {
+        this._go(0, 'keyboard');
+      } else if (key === 'End') {
+        this._go(this._slides.length - 1, 'keyboard');
+      } else if (key === 'r' || key === 'R') {
+        this._go(0, 'keyboard');
+      } else if (/^[0-9]$/.test(key)) {
+        // 1..9 jump to that slide; 0 jumps to 10.
+        const n = key === '0' ? 9 : parseInt(key, 10) - 1;
+        if (n < this._slides.length) this._go(n, 'keyboard');
+      } else {
+        handled = false;
+      }
+
+      if (handled) {
+        e.preventDefault();
+        this._flashOverlay();
+      }
+    }
+
+    _go(i, reason = 'api') {
+      if (!this._slides.length) return;
+      const clamped = Math.max(0, Math.min(this._slides.length - 1, i));
+      if (clamped === this._index) {
+        this._flashOverlay();
+        return;
+      }
+      this._index = clamped;
+      this._applyIndex({ showOverlay: true, broadcast: true, reason });
+    }
+
+    // Public API ------------------------------------------------------------
+
+    /** Current slide index (0-based). */
+    get index() { return this._index; }
+    /** Total slide count. */
+    get length() { return this._slides.length; }
+    /** Programmatically navigate. */
+    goTo(i) { this._go(i, 'api'); }
+    next() { this._go(this._index + 1, 'api'); }
+    prev() { this._go(this._index - 1, 'api'); }
+    reset() { this._go(0, 'api'); }
+  }
+
+  if (!customElements.get('deck-stage')) {
+    customElements.define('deck-stage', DeckStage);
+  }
+})();
+    </script>
+</body>
+</html>

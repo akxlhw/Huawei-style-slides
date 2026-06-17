@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "overall_score": 87,
+  "pptx_path": "examples\\output\\recruitment-review\\deck.pptx",
+  "checklist": {
+    "user_code_errors": 0,
+    "engine_bug_errors": 8,
+    "warnings": 0
+  },
+  "verdict": "PASS — 可进入 S5 交付",
+  "user_code_error_detail": [],
+  "engine_bug_detail": [
+    {
+      "slide": 3,
+      "category": "peer_font_inconsistency",
+      "message": "Peer group at y≈1.95\" has inconsistent font sizes: TextBox 8=18.0pt, TextBox 9=12.0pt, TextBox 10=12.0pt, TextBox 11=12.",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：peer_font_inconsistency"
+    },
+    {
+      "slide": 3,
+      "category": "peer_font_inconsistency",
+      "message": "Peer group at y≈2.78\" has inconsistent font sizes: TextBox 13=18.0pt, TextBox 14=12.0pt, TextBox 15=12.0pt, TextBox 16=1",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：peer_font_inconsistency"
+    },
+    {
+      "slide": 3,
+      "category": "peer_font_inconsistency",
+      "message": "Peer group at y≈3.62\" has inconsistent font sizes: TextBox 18=18.0pt, TextBox 19=12.0pt, TextBox 20=12.0pt, TextBox 21=1",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：peer_font_inconsistency"
+    },
+    {
+      "slide": 3,
+      "category": "peer_font_inconsistency",
+      "message": "Peer group at y≈4.45\" has inconsistent font sizes: TextBox 23=18.0pt, TextBox 24=12.0pt, TextBox 25=12.0pt, TextBox 26=1",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：peer_font_inconsistency"
+    },
+    {
+      "slide": 3,
+      "category": "peer_font_inconsistency",
+      "message": "Peer group at y≈5.28\" has inconsistent font sizes: TextBox 28=18.0pt, TextBox 29=12.0pt, TextBox 30=12.0pt, TextBox 31=1",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：peer_font_inconsistency"
+    },
+    {
+      "slide": 3,
+      "category": "peer_font_inconsistency",
+      "message": "Peer group at y≈6.12\" has inconsistent font sizes: TextBox 33=18.0pt, TextBox 34=12.0pt, TextBox 35=12.0pt, TextBox 36=1",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：peer_font_inconsistency"
+    },
+    {
+      "slide": 4,
+      "category": "peer_font_inconsistency",
+      "message": "Peer group at y≈1.55\" has inconsistent font sizes: Oval 4=14.0pt, TextBox 5=18.0pt, Oval 9=14.0pt, TextBox 10=18.0pt, Ov",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：peer_font_inconsistency"
+    },
+    {
+      "slide": 7,
+      "category": "chart_legend_overflow",
+      "message": "Legend/label '12 月' overflows content area RIGHT by 0.47\"",
+      "whitelist_reason": "在 ENGINE_BUG_WHITELIST 中：chart_legend_overflow"
+    }
+  ],
+  "warnings_detail": []
+}

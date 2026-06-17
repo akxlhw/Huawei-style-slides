@@ -1,0 +1,56 @@
+{
+  "brief": {
+    "audience": "HRD",
+    "goal": "review",
+    "duration_minutes": 15
+  },
+  "framework": "mece",
+  "secondary_frameworks": [
+    "3c",
+    "pyramid"
+  ],
+  "slides": [
+    {
+      "idx": 1,
+      "layout": "cover",
+      "title": "Q3 招聘渠道 ROI 分析",
+      "key_point": ""
+    },
+    {
+      "idx": 2,
+      "layout": "executive_summary",
+      "title": "建议停投智联，将预算转向 BOSS 与内推",
+      "key_point": "建议停投智联，释放预算加投 BOSS 与内推"
+    },
+    {
+      "idx": 3,
+      "layout": "data_table",
+      "title": "按 MECE 原则对招聘渠道进行分类",
+      "key_point": "自有 / 付费 / 社交 / 猎头 / 校园"
+    },
+    {
+      "idx": 4,
+      "layout": "table_insight",
+      "title": "各渠道 ROI 对比与投放效果分析",
+      "key_point": "内推性价比 3.6 分，智联 0 分"
+    },
+    {
+      "idx": 5,
+      "layout": "matrix_2x2",
+      "title": "渠道贡献度与单位成本二维矩阵",
+      "key_point": "高贡献低成本渠道加大投入"
+    },
+    {
+      "idx": 6,
+      "layout": "timeline",
+      "title": "Q4 渠道预算调整与执行时间表",
+      "key_point": "预算重新分配时间表"
+    },
+    {
+      "idx": 7,
+      "layout": "closing",
+      "title": "谢谢",
+      "key_point": ""
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "brief": {
+    "audience": "HRD",
+    "goal": "review",
+    "duration_minutes": 15
+  },
+  "framework": "seven-step",
+  "secondary_frameworks": [
+    "issue-tree",
+    "mece"
+  ],
+  "slides": [
+    {
+      "idx": 1,
+      "layout": "cover",
+      "title": "Q3 招聘复盘汇报",
+      "key_point": ""
+    },
+    {
+      "idx": 2,
+      "layout": "executive_summary",
+      "title": "Q3 招聘完成率未达目标，技术岗缺口最大",
+      "key_point": "Q3 招聘完成率低于目标，技术岗是主要缺口"
+    },
+    {
+      "idx": 3,
+      "layout": "table_insight",
+      "title": "Q3 招聘漏斗全图与各环节转化率",
+      "key_point": "简历获取环节转化率最低，是首要瓶颈"
+    },
+    {
+      "idx": 4,
+      "layout": "funnel",
+      "title": "招聘漏斗各环节转化率分析",
+      "key_point": "从曝光到入职的各环节转化率"
+    },
+    {
+      "idx": 5,
+      "layout": "data_table",
+      "title": "各招聘渠道 ROI 对比与投放建议",
+      "key_point": "内推性价比最高，智联零产出"
+    },
+    {
+      "idx": 6,
+      "layout": "matrix_2x2",
+      "title": "岗位优先级矩阵：影响度 × 紧急度",
+      "key_point": "高影响高紧急岗位优先补齐"
+    },
+    {
+      "idx": 7,
+      "layout": "timeline",
+      "title": "Q4 追赶计划与关键里程碑",
+      "key_point": "10-12 月关键里程碑"
+    },
+    {
+      "idx": 8,
+      "layout": "action_items",
+      "title": "Q4 招聘追赶行动计划与责任人",
+      "key_point": "责任人、时间、预期效果"
+    },
+    {
+      "idx": 9,
+      "layout": "closing",
+      "title": "谢谢",
+      "key_point": ""
+    }
+  ]
+}
