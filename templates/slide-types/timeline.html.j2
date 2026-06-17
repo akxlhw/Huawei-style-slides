@@ -1,0 +1,21 @@
+<div class="slide-content" style="padding:120px 140px;">
+    <div class="top-accent-bar"></div>
+    <h2 class="fade-up" style="font-size:64px; margin-bottom:56px;">{{ slide.title }}</h2>
+    <div class="fade-up" style="position:relative; margin-top:120px;">
+        <!-- Horizontal line -->
+        <div style="position:absolute; top:24px; left:60px; right:60px; height:4px; background:var(--hw-light-gray);"></div>
+        <div style="display:flex; justify-content:space-between; padding:0 40px;">
+            {% for m in slide.milestones %}
+            <div style="display:flex; flex-direction:column; align-items:center; width:220px; position:relative; z-index:1;">
+                <div style="width:52px; height:52px; border-radius:50%; background:{% if loop.last %}var(--hw-red){% else %}var(--hw-blue){% endif %}; display:flex; align-items:center; justify-content:center; color:var(--hw-white); font-weight:bold; font-size:22px; margin-bottom:24px;">{{ loop.index }}</div>
+                <div style="font-size:22px; color:var(--hw-body); margin-bottom:8px; text-align:center;">{{ m.date }}</div>
+                <div style="font-size:24px; font-weight:bold; color:var(--hw-title); text-align:center; margin-bottom:8px;">{{ m.label }}</div>
+                <div style="font-size:20px; color:var(--hw-body); text-align:center; line-height:1.4;">{{ m.desc }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if slide.source %}
+    <div class="slide-source fade-up">来源：{{ slide.source }}</div>
+    {% endif %}
+</div>

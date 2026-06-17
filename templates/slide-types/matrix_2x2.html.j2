@@ -1,0 +1,32 @@
+<div class="slide-content" style="padding:120px 140px;">
+    <div class="top-accent-bar"></div>
+    <h2 class="fade-up" style="font-size:64px; margin-bottom:40px;">{{ slide.title }}</h2>
+    <div class="fade-up" style="position:relative; width:1400px; height:640px; margin:0 auto;">
+        <!-- Axis labels -->
+        {% if slide.axis_labels %}
+        <div style="position:absolute; bottom:-50px; left:50%; transform:translateX(-50%); font-size:24px; color:var(--hw-body);">{{ slide.axis_labels.x }}</div>
+        <div style="position:absolute; left:-80px; top:50%; transform:rotate(-90deg) translateX(-50%); transform-origin:left center; font-size:24px; color:var(--hw-body);">{{ slide.axis_labels.y }}</div>
+        {% endif %}
+
+        <!-- Grid lines -->
+        <div style="position:absolute; left:50%; top:0; bottom:0; width:2px; background:var(--hw-light-gray);"></div>
+        <div style="position:absolute; top:50%; left:0; right:0; height:2px; background:var(--hw-light-gray);"></div>
+
+        <!-- Quadrants -->
+        {% for q in slide.quadrants %}
+        {% set col = loop.index0 % 2 %}
+        {% set row = (loop.index0 // 2) % 2 %}
+        <div style="position:absolute; {% if col == 0 %}left:0;{% else %}left:50.5%;{% endif %} {% if row == 0 %}top:0;{% else %}top:50.5%;{% endif %} width:49.5%; height:49.5%; background:{{ q.color }}20; border:2px solid {{ q.color }}; border-radius:8px; padding:28px; box-sizing:border-box;">
+            <div style="font-size:28px; font-weight:bold; color:{{ q.color }}; margin-bottom:16px;">{{ q.label }}</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                {% for item in q.items %}
+                <div style="font-size:24px; color:var(--hw-title);">{{ item }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if slide.source %}
+    <div class="slide-source fade-up">来源：{{ slide.source }}</div>
+    {% endif %}
+</div>

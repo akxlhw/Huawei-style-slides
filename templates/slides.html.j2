@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        {% include 'viewport-base.css.j2' %}
+
+        :root {
+            --hw-red: #C7000B;
+            --hw-title: #231815;
+            --hw-body: #595757;
+            --hw-white: #FFFFFF;
+            --hw-light-gray: #DCDDDD;
+            --hw-orange: #ED6D00;
+            --hw-yellow: #FCC800;
+            --hw-green: #62B230;
+            --hw-blue: #30B5C5;
+            --font-zh: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+            --font-en: Arial, "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            font-family: var(--font-zh);
+            background: var(--hw-light-gray);
+        }
+
+        /* Override deck-stage host background for Huawei light theme */
+        deck-stage {
+            --stage-bg: var(--hw-light-gray);
+            --slide-bg: var(--hw-white);
+        }
+
+        .slide {
+            background: var(--hw-white);
+            color: var(--hw-body);
+            font-family: var(--font-zh);
+        }
+
+        .slide h1, .slide h2, .slide h3 {
+            color: var(--hw-title);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .accent-red { color: var(--hw-red); }
+        .accent-bg-red { background-color: var(--hw-red); }
+        .accent-bg-blue { background-color: var(--hw-blue); }
+        .accent-bg-yellow { background-color: var(--hw-yellow); }
+        .accent-bg-orange { background-color: var(--hw-orange); }
+        .accent-bg-green { background-color: var(--hw-green); }
+        .accent-bg-gray { background-color: var(--hw-light-gray); }
+
+        .slide-content {
+            position: absolute;
+            inset: 0;
+            width: 1920px;
+            height: 1080px;
+            box-sizing: border-box;
+        }
+
+        /* Animation: elements with .fade-up animate when the slide is active.
+           The deck-stage component toggles [data-deck-active] on the active
+           <section>; we mirror that with a visible class for CSS transitions. */
+        .slide[data-deck-active] .fade-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Source line used by content slides */
+        .slide-source {
+            position: absolute;
+            bottom: 60px;
+            right: 120px;
+            font-size: 20px;
+            color: var(--hw-body);
+            font-family: var(--font-en);
+        }
+
+        /* Utility: top accent bar */
+        .top-accent-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--hw-red);
+        }
+    </style>
+</head>
+<body>
+    <deck-stage width="1920" height="1080">
+        {% for slide in slides %}
+        <section class="slide" data-label="{{ slide.idx }} {{ slide.slide_type }}" data-slide-type="{{ slide.slide_type }}">
+            {% include 'slide-types/' + slide.slide_type + '.html.j2' %}
+        </section>
+        {% endfor %}
+    </deck-stage>
+    <script>
+        {% include 'deck-stage.js.j2' %}
+    </script>
+</body>
+</html>
