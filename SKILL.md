@@ -47,3 +47,9 @@ python scripts/orchestrator.py --scenario recruitment-review --output ppt-projec
 export PPT_LLM_BACKEND=glm   # optional; default uses Claude Code
 export GLM_API_KEY=...       # required only if backend is glm
 ```
+
+## Known Limitations
+
+- HTML deck uses a fixed 16:9 stage; mobile view letterboxes.
+- PPTX rendering requires `Mck-ppt-design-skill` at the repository root.
+- Generated content uses sample data; replace with real data in production.
