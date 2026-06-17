@@ -11,6 +11,7 @@ from pptx_content_builder import build_pptx_content
 from html_content_builder import build_html_content
 from pptx_renderer import render_pptx
 from html_renderer import render_html
+from html_validator import validate_html
 from qa_runner import run_gate_check_s3, run_gate_check, assert_passed
 
 
@@ -43,6 +44,12 @@ def run(
     # S4 Render
     deck_path = render_pptx(pptx_content, output_dir)
     html_path = render_html(html_content, output_dir)
+
+    html_validation = validate_html(
+        html_path, expected_slides=len(html_content["slides"])
+    )
+    if not html_validation["ok"]:
+        raise SystemExit(f"HTML validation failed: {html_validation['errors']}")
 
     # S5 QA
     if not skip_qa:
