@@ -1,0 +1,6 @@
+{
+  "scenario": "channel-roi",
+  "audience": "HRD",
+  "goal": "decision",
+  "duration_minutes": 10
+}
