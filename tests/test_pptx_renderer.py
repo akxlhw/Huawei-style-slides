@@ -22,9 +22,9 @@ def test_render_pptx_creates_file(tmp_path):
             {
                 "idx": 2,
                 "layout": "executive_summary",
-                "title": "核心结论",
+                "title": "本季度招聘完成率低于目标",
                 "headline": "完成率低于目标",
-                "items": [{"title": "A", "description": "B"}],
+                "items": [(1, "A", "B")],
                 "source": "HR",
             },
             {

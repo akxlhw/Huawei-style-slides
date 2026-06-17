@@ -31,33 +31,14 @@ def _apply_huawei_theme(eng: MckEngine) -> None:
     pass
 
 
-def _convert_executive_items(items: List[Dict[str, str]]) -> List[Tuple[int, str, str]]:
-    """Convert [{title, description}] -> [(num, title, description)]."""
-    return [(i + 1, item["title"], item.get("description", "")) for i, item in enumerate(items)]
-
-
-def _convert_funnel_stages(stages: List[Dict[str, Any]]) -> List[Tuple[str, str, float]]:
-    """Convert [{label, value}] -> [(label, count_label, pct_of_max)]."""
-    max_value = max(s.get("value", 0) for s in stages) if stages else 1
-    if max_value == 0:
-        max_value = 1
-    return [
-        (str(s.get("label", "")), str(s.get("value", "")), s.get("value", 0) / max_value)
-        for s in stages
-    ]
-
-
 def _convert_matrix_quadrants(
-    quadrants: List[Dict[str, Any]],
+    quadrants: List[Tuple[str, str, str]],
 ) -> List[Tuple[str, RGBColor, str]]:
-    """Convert [{label, items, color}] -> [(label, RGBColor, description)]."""
-    result = []
-    for q in quadrants:
-        items = q.get("items", [])
-        desc = "\n".join(str(i) for i in items) if isinstance(items, list) else str(items)
-        color = _hex_to_rgb(q.get("color", "#DCDDDD"))
-        result.append((str(q.get("label", "")), color, desc))
-    return result
+    """Convert (label, hex_color, desc) -> (label, RGBColor, desc)."""
+    return [
+        (str(q[0]), _hex_to_rgb(q[1]), str(q[2]))
+        for q in quadrants
+    ]
 
 
 def _convert_axis_labels(axis_labels: Dict[str, str]) -> Tuple[str, str]:
@@ -65,34 +46,6 @@ def _convert_axis_labels(axis_labels: Dict[str, str]) -> Tuple[str, str]:
     if not axis_labels:
         return ("", "")
     return (axis_labels.get("x", ""), axis_labels.get("y", ""))
-
-
-def _convert_timeline_milestones(
-    milestones: List[Dict[str, str]],
-) -> List[Tuple[str, str]]:
-    """Convert [{date, label, desc}] -> [(label, description)]."""
-    result = []
-    for m in milestones:
-        date = m.get("date", "")
-        label = m.get("label", "")
-        full_label = f"{date} {label}".strip()
-        result.append((full_label, m.get("desc", "")))
-    return result
-
-
-def _convert_action_items(
-    actions: List[Dict[str, str]],
-) -> List[Tuple[str, str, str, str]]:
-    """Convert [{title, owner, timeline, desc}] -> [(title, timeline, desc, owner)]."""
-    return [
-        (
-            str(a.get("title", "")),
-            str(a.get("timeline", "")),
-            str(a.get("desc", "")),
-            str(a.get("owner", "")),
-        )
-        for a in actions
-    ]
 
 
 def render_pptx(content: Dict[str, Any], output_dir: Path) -> Path:
@@ -117,7 +70,7 @@ def render_pptx(content: Dict[str, Any], output_dir: Path) -> Path:
             eng.executive_summary(
                 title=slide["title"],
                 headline=slide.get("headline", ""),
-                items=_convert_executive_items(slide.get("items", [])),
+                items=slide.get("items", []),
                 source=slide.get("source", ""),
             )
         elif layout == "table_insight":
@@ -129,10 +82,14 @@ def render_pptx(content: Dict[str, Any], output_dir: Path) -> Path:
                 source=slide.get("source", ""),
             )
         elif layout == "funnel":
-            # funnel() is marked retired in MckEngine but still callable.
-            eng.funnel(
+            # The retired eng.funnel() overflows; use process_chevron instead.
+            steps = [
+                (str(i + 1), str(label), f"{count} ({int(pct * 100)}%)")
+                for i, (label, count, pct) in enumerate(slide.get("stages", []))
+            ]
+            eng.process_chevron(
                 title=slide["title"],
-                stages=_convert_funnel_stages(slide.get("stages", [])),
+                steps=steps,
                 source=slide.get("source", ""),
             )
         elif layout == "data_table":
@@ -153,13 +110,13 @@ def render_pptx(content: Dict[str, Any], output_dir: Path) -> Path:
         elif layout == "timeline":
             eng.timeline(
                 title=slide["title"],
-                milestones=_convert_timeline_milestones(slide.get("milestones", [])),
+                milestones=slide.get("milestones", []),
                 source=slide.get("source", ""),
             )
         elif layout == "action_items":
             eng.action_items(
                 title=slide["title"],
-                actions=_convert_action_items(slide.get("actions", [])),
+                actions=slide.get("actions", []),
                 source=slide.get("source", ""),
             )
         elif layout == "closing":

@@ -11,7 +11,7 @@ def test_build_pptx_content(tmp_path):
         "framework": "seven-step",
         "slides": [
             {"idx": 1, "layout": "cover", "title": "Q3 招聘复盘", "key_point": ""},
-            {"idx": 2, "layout": "executive_summary", "title": "核心结论", "key_point": "完成率低于目标"},
+            {"idx": 2, "layout": "executive_summary", "title": "本季度招聘完成率低于目标", "key_point": "完成率低于目标"},
         ],
     }
     content = build_pptx_content(outline, output_dir)
@@ -19,3 +19,6 @@ def test_build_pptx_content(tmp_path):
     assert content["slides"][0]["layout"] == "cover"
     assert "headline" in content["slides"][1]
     assert "items" in content["slides"][1]
+    # MckEngine API expects executive_summary items as (num, title, desc) tuples
+    assert isinstance(content["slides"][1]["items"][0], (list, tuple))
+    assert len(content["slides"][1]["items"][0]) == 3

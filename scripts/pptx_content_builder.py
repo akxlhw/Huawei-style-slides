@@ -1,8 +1,16 @@
-"""S3a: Build content.pptx.json from outline, with sample data for each layout."""
+"""S3a: Build content.pptx.json from outline, with sample data for each layout.
+
+This builder emits the API format expected by MckEngine and gate_check_s3.py:
+- executive_summary items are (num, title, description) tuples
+- matrix_2x2 quadrants are (label, color_hex, description) tuples
+- funnel stages are (label, count_label, pct_of_max) tuples
+- timeline milestones are (label, description) tuples
+- action_items actions are (title, timeline, description, owner) tuples
+"""
 
 import json
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
 
 
 def _make_cover(slide: Dict[str, Any]) -> Dict[str, Any]:
@@ -21,9 +29,9 @@ def _make_executive_summary(slide: Dict[str, Any]) -> Dict[str, Any]:
         "title": slide["title"],
         "headline": slide["key_point"],
         "items": [
-            {"title": "招聘完成率 60%", "description": "低于目标 20 个百分点"},
-            {"title": "技术岗缺口最大", "description": "缺口 30% 集中在后端/Java"},
-            {"title": "Q4 追赶计划已制定", "description": "预计 12 月底前补齐"},
+            (1, "招聘完成率 60%", "低于目标 20 个百分点"),
+            (2, "技术岗缺口最大", "缺口 30% 集中在后端/Java"),
+            (3, "Q4 追赶计划已制定", "预计 12 月底前补齐"),
         ],
         "source": "HR 数据平台",
     }
@@ -48,17 +56,22 @@ def _make_table_insight(slide: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def _make_funnel(slide: Dict[str, Any]) -> Dict[str, Any]:
+    """Build funnel slide data.
+
+    The PPTX track renders this as a process_chevron (the retired funnel layout
+    overflows). The HTML track renders it as a funnel bar chart.
+    """
+    stages = [
+        ("曝光", "10,000", 1.000),
+        ("投递", "1,500", 0.150),
+        ("初筛", "600", 0.060),
+        ("面试", "180", 0.018),
+        ("入职", "130", 0.013),
+    ]
     return {
         "layout": "funnel",
         "title": slide["title"],
-        "stages": [
-            {"label": "曝光", "value": 10000},
-            {"label": "投递", "value": 1500},
-            {"label": "初筛", "value": 600},
-            {"label": "面试", "value": 180},
-            {"label": "Offer", "value": 144},
-            {"label": "入职", "value": 130},
-        ],
+        "stages": stages,
         "source": "招聘系统",
     }
 
@@ -83,10 +96,10 @@ def _make_matrix_2x2(slide: Dict[str, Any]) -> Dict[str, Any]:
         "layout": "matrix_2x2",
         "title": slide["title"],
         "quadrants": [
-            {"label": "立即行动", "items": ["核心架构师", "算法负责人"], "color": "#C7000B"},
-            {"label": "提前布局", "items": ["校招 Pipeline", "高潜储备"], "color": "#30B5C5"},
-            {"label": "快速解决", "items": ["实习生", "辅助岗"], "color": "#FCC800"},
-            {"label": "暂缓/冻结", "items": ["非关键替补"], "color": "#DCDDDD"},
+            ("立即行动", "#C7000B", "核心架构师\n算法负责人"),
+            ("提前布局", "#30B5C5", "校招 Pipeline\n高潜储备"),
+            ("快速解决", "#FCC800", "实习生\n辅助岗"),
+            ("暂缓/冻结", "#DCDDDD", "非关键替补"),
         ],
         "axis_labels": {"x": "紧急度", "y": "影响度"},
         "source": "HRBP 评估",
@@ -98,11 +111,11 @@ def _make_timeline(slide: Dict[str, Any]) -> Dict[str, Any]:
         "layout": "timeline",
         "title": slide["title"],
         "milestones": [
-            {"date": "10 月 W1", "label": "优化 JD + 开通猎聘", "desc": "预计简历 +40%"},
-            {"date": "10 月 W2", "label": "薪酬特批", "desc": "Offer 接受率 +20%"},
-            {"date": "10 月 W3", "label": "面试流程精简", "desc": "周期 -5 天"},
-            {"date": "11 月", "label": "内推激励翻倍", "desc": "入职 +30%"},
-            {"date": "12 月", "label": "Q4 复盘", "desc": "目标达成率评估"},
+            ("10 月 W1", "优化 JD + 开通猎聘，预计简历 +40%"),
+            ("10 月 W2", "薪酬特批，Offer 接受率 +20%"),
+            ("10 月 W3", "面试流程精简，周期 -5 天"),
+            ("11 月 内推", "内推激励翻倍，入职 +30%"),
+            ("12 月", "复盘：目标达成率评估"),
         ],
         "source": "招聘计划",
     }
@@ -113,9 +126,9 @@ def _make_action_items(slide: Dict[str, Any]) -> Dict[str, Any]:
         "layout": "action_items",
         "title": slide["title"],
         "actions": [
-            {"title": "优化 JD", "owner": "HRBP-A", "timeline": "第 1 周", "desc": "覆盖 Spring Cloud 等热词"},
-            {"title": "薪酬特批", "owner": "HRD", "timeline": "第 1-2 周", "desc": "技术岗调薪至 75 分位"},
-            {"title": "面试精简", "owner": "招聘组", "timeline": "第 2 周", "desc": "4 轮 → 3 轮"},
+            ("优化 JD", "第 1 周", "覆盖 Spring Cloud 等热词", "HRBP-A"),
+            ("薪酬特批", "第 1-2 周", "技术岗调薪至 75 分位", "HRD"),
+            ("面试精简", "第 2 周", "4 轮 → 3 轮", "招聘组"),
         ],
         "source": "行动计划",
     }
