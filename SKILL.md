@@ -1,5 +1,5 @@
 ---
-name: huawei-hr-ppt
+name: huawei-style-slides
 description: >-
   Generate HR recruitment and allocation presentations in Huawei visual style using McKinsey frameworks.
   Outputs both an editable Office PPTX and a browser-based HTML slide deck.
@@ -38,7 +38,7 @@ Generate HR presentations for recruitment and allocation scenarios.
 
 ```bash
 cd huawei-style-slides
-python scripts/orchestrator.py --input examples/recruitment-review.json --output ppt-project-demo/
+python scripts/orchestrator.py --scenario recruitment-review --output ppt-project-demo
 ```
 
 ## Environment Variables
