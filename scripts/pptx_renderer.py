@@ -9,6 +9,17 @@ if str(MCK_ROOT) not in sys.path:
     sys.path.insert(0, str(MCK_ROOT))
 
 from mck_ppt import MckEngine  # noqa: E402
+from pptx.dml.color import RGBColor  # noqa: E402
+
+
+def _hex_to_rgb(hex_color: str) -> RGBColor:
+    """Convert '#C7000B' to python-pptx RGBColor."""
+    hex_color = hex_color.lstrip("#")
+    return RGBColor(
+        int(hex_color[0:2], 16),
+        int(hex_color[2:4], 16),
+        int(hex_color[4:6], 16),
+    )
 
 
 def _apply_huawei_theme(eng: MckEngine) -> None:
@@ -38,13 +49,14 @@ def _convert_funnel_stages(stages: List[Dict[str, Any]]) -> List[Tuple[str, str,
 
 def _convert_matrix_quadrants(
     quadrants: List[Dict[str, Any]],
-) -> List[Tuple[str, str, str]]:
-    """Convert [{label, items, color}] -> [(label, color, description)]."""
+) -> List[Tuple[str, RGBColor, str]]:
+    """Convert [{label, items, color}] -> [(label, RGBColor, description)]."""
     result = []
     for q in quadrants:
         items = q.get("items", [])
         desc = "\n".join(str(i) for i in items) if isinstance(items, list) else str(items)
-        result.append((str(q.get("label", "")), q.get("color", "#DCDDDD"), desc))
+        color = _hex_to_rgb(q.get("color", "#DCDDDD"))
+        result.append((str(q.get("label", "")), color, desc))
     return result
 
 
@@ -159,5 +171,12 @@ def render_pptx(content: Dict[str, Any], output_dir: Path) -> Path:
             raise ValueError(f"Unsupported PPTX layout: {layout}")
 
     deck_path = output_dir / "deck.pptx"
-    eng.save(str(deck_path))
+    try:
+        eng.save(str(deck_path))
+    except UnicodeEncodeError:
+        # MckEngine's success print uses emoji that can fail on GBK/ASCII
+        # consoles. The file is already saved at this point, so verify it
+        # exists and continue.
+        if not deck_path.exists():
+            raise
     return deck_path
