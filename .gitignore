@@ -23,6 +23,7 @@ htmlcov/
 # Outputs (generated decks)
 ppt-project-*/
 examples/output/
+tmp-integration-check/
 
 # IDE
 .vscode/
