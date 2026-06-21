@@ -1,0 +1,27 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div class="fade-up" style="margin-top:20px;flex:1;display:flex;flex-direction:column;">
+        {# Phase headers #}
+        <div style="display:flex;margin-left:240px;">
+            {% for ph in slide.gantt_phases %}
+            <div style="flex:1;text-align:center;font-size:16px;color:var(--hw-red);font-weight:bold;padding-bottom:12px;">{{ ph }}</div>
+            {% endfor %}
+        </div>
+        {# Tasks #}
+        {% set nph = slide.gantt_phases | length %}
+        {% for t in slide.gantt_tasks %}
+        <div style="display:flex;align-items:center;height:{{ 400 // (slide.gantt_tasks | length) }}px;border-bottom:1px solid var(--hw-line);">
+            <div style="flex:0 0 240px;padding:0 20px;font-size:17px;color:var(--hw-title);font-weight:bold;">{{ t.name }}</div>
+            <div style="flex:1;position:relative;height:60%;">
+                {# gridlines #}
+                {% for i in range(nph + 1) %}
+                <div style="position:absolute;left:{{ i * (100 / nph) }}%;top:0;bottom:0;width:1px;background:var(--hw-line);"></div>
+                {% endfor %}
+                {# bar #}
+                <div style="position:absolute;left:{{ t.start * (100 / nph) }}%;width:{{ (t.end - t.start) * (100 / nph) }}%;top:0;bottom:0;background:var(--hw-{{ t.color }});border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:bold;"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

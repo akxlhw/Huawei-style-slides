@@ -1,0 +1,49 @@
+# Huawei visual theme — editable configuration.
+# All visual constants (colors, fonts, brand names) are read from this file.
+# Change values here to re-brand the deck without touching Python code.
+
+# Brand (shown in left nav rail + cover)
+brand:
+  zh: 华为 ICT
+  en: HUAWEI ICT
+
+# Primary palette (Huawei official, cross-verified)
+colors:
+  red: "#CF0A2C"        # Huawei red — Pantone 185C (point accent only, ≤10% area)
+  title_black: "#231815"
+  body_gray: "#595757"
+  med_gray: "#999999"
+  white: "#FFFFFF"
+  light_gray: "#DCDDDD"
+  bg_gray: "#F5F5F5"
+  tech_blue: "#007DFF"  # Huawei Cloud primary
+  orange: "#FF9900"
+  yellow: "#FCC800"
+  green: "#669900"
+  ict_blue: "#30B5C5"
+
+# Fonts
+fonts:
+  zh: Microsoft YaHei
+  en: Arial
+
+# MckEngine constant overrides (applied via monkey-patch)
+mck_overrides:
+  NAVY: "#CF0A2C"
+  BLACK: "#231815"
+  DARK_GRAY: "#595757"
+  MED_GRAY: "#999999"
+  LINE_GRAY: "#DCDDDD"
+  BG_GRAY: "#F5F5F5"
+  ACCENT_BLUE: "#007DFF"
+  ACCENT_GREEN: "#669900"
+  ACCENT_ORANGE: "#FF9900"
+  ACCENT_RED: "#CF0A2C"
+  ACCENT_YELLOW: "#FCC800"
+  LIGHT_BLUE: "#E6F0FF"
+  LIGHT_GREEN: "#EEF6E0"
+  LIGHT_ORANGE: "#FFF3E0"
+  LIGHT_RED: "#FCE8EA"
+  FONT_HEADER: Microsoft YaHei
+  FONT_BODY: Microsoft YaHei
+  FONT_EA: Microsoft YaHei

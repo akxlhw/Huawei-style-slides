@@ -1,0 +1,66 @@
+{# Huawei official visual framework: left nav rail + arc-red title component.
+   Included by slides.html.j2. Provides shared CSS classes consumed by every
+   slide-type template so the whole deck speaks the Huawei visual language. #}
+<style>
+    /* ── 左侧导航条（华为标志元素） ── */
+    .hw-nav {
+        position: absolute; left: 0; top: 0; bottom: 0; width: 200px;
+        background: var(--hw-bg-gray);
+        border-right: 1px solid var(--hw-line);
+        display: flex; flex-direction: column;
+        padding: 60px 0; z-index: 5;
+    }
+    .hw-nav-logo {
+        padding: 0 36px 56px; font-size: 20px; font-weight: bold;
+        color: var(--hw-title); display: flex; align-items: center; gap: 12px;
+    }
+    .hw-nav-logo::before { content: ""; width: 7px; height: 28px; background: var(--hw-red); }
+    .hw-nav-section {
+        writing-mode: vertical-rl; text-orientation: upright;
+        position: absolute; left: 36px; top: 50%; transform: translateY(-50%);
+        font-size: 16px; color: var(--hw-muted); letter-spacing: 6px;
+    }
+    .hw-nav-items { margin-top: auto; padding: 0 36px; display: flex; flex-direction: column; gap: 22px; }
+    .hw-nav-item {
+        font-size: 16px; color: var(--hw-muted);
+        padding-left: 14px; border-left: 3px solid transparent;
+    }
+    .hw-nav-item.active { color: var(--hw-red); font-weight: bold; border-left-color: var(--hw-red); }
+
+    /* slide 主体让出导航条宽度。cover/closing 不需要导航，用 .no-nav 取消 */
+    .slide:not(.no-nav) .slide-content { padding-left: 260px; }
+
+    /* ── 弧形红色标题组件（华为标志符号） ── */
+    .hw-title { position: relative; margin-bottom: 44px; }
+    .hw-title-zh { font-size: 38px; font-weight: bold; color: var(--hw-title); line-height: 1.25; }
+    .hw-title-en { font-size: 16px; color: var(--hw-muted); margin-top: 8px; letter-spacing: 1px; }
+    .hw-title-arc {
+        position: absolute; left: -8px; bottom: -16px; width: 300px; height: 22px; pointer-events: none;
+    }
+    .hw-title-tag {
+        display: inline-block; font-size: 15px; color: var(--hw-red); font-weight: bold;
+        background: var(--hw-red-soft); padding: 4px 14px; border-radius: 3px; margin-bottom: 14px;
+    }
+
+    /* ── 华风卡片（统一替代散乱的 inline 样式） ── */
+    .hw-card {
+        background: var(--hw-bg-gray); border-radius: 8px; padding: 30px 28px;
+        border-top: 4px solid var(--hw-red);
+        display: flex; flex-direction: column; min-width: 0;
+    }
+    .hw-card.blue { border-top-color: var(--hw-blue); }
+    .hw-card.green { border-top-color: var(--hw-green); }
+    .hw-card.orange { border-top-color: var(--hw-orange); }
+    .hw-card.yellow { border-top-color: var(--hw-yellow); }
+    .hw-card.gray { border-top-color: var(--hw-line); }
+    .hw-card-title { font-size: 22px; font-weight: bold; color: var(--hw-title); margin-bottom: 12px; }
+    .hw-card-desc { font-size: 17px; color: var(--hw-body); line-height: 1.6; }
+
+    /* 华风大数字 */
+    .hw-kpi-num { font-size: 72px; font-weight: bold; line-height: 1; letter-spacing: -1px; }
+    .hw-kpi-label { font-size: 19px; margin-top: 12px; }
+
+    /* 页脚 */
+    .hw-source { position: absolute; left: 260px; bottom: 32px; font-size: 14px; color: var(--hw-muted); }
+    .hw-pageno { position: absolute; right: 60px; bottom: 32px; font-size: 15px; color: var(--hw-muted); }
+</style>

@@ -1,0 +1,33 @@
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;background:linear-gradient(180deg, #FFFFFF 0%, var(--hw-bg-gray) 100%);">
+    {% from 'huawei-macros.j2' import hw_title %}
+    {{ hw_title(slide) }}<div style="display:flex;align-items:center;gap:40px;margin-top:30px;flex:1;">
+        {# Closed-loop cycle: nodes positioned by percentage around a ring. #}
+        <div class="fade-up" style="position:relative;width:520px;height:520px;flex-shrink:0;margin:auto;">
+            {# connecting ring #}
+            <div style="position:absolute;left:14%;top:14%;width:72%;height:72%;border:3px dashed var(--hw-red);border-radius:50%;opacity:0.5;"></div>
+            {# center hub #}
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:18px 28px;border-radius:40px;background:var(--hw-red);color:var(--hw-white);font-size:24px;font-weight:bold;text-align:center;">闭环驱动</div>
+            {% for ph in slide.phases %}
+            <div style="position:absolute;left:{{ ph.x }}%;top:{{ ph.y }}%;transform:translate(-50%,-50%);width:150px;background:var(--hw-white);border:2px solid var(--hw-red);border-radius:10px;padding:18px 12px;display:flex;flex-direction:column;align-items:center;">
+                <div style="width:40px;height:40px;border-radius:50%;background:var(--hw-red);color:var(--hw-white);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;margin-bottom:10px;">{{ ph.num }}</div>
+                <div style="font-size:24px;font-weight:bold;color:var(--hw-title);">{{ ph.label }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if slide.right_panel %}
+        <div class="fade-up" style="flex:1;background:var(--hw-white);border-left:6px solid var(--hw-red);border-radius:0 8px 8px 0;padding:36px;">
+            <div style="font-size:26px;font-weight:bold;color:var(--hw-red);margin-bottom:24px;">{{ slide.right_panel[0] }}</div>
+            <div style="display:flex;flex-direction:column;gap:18px;">
+                {% for pt in slide.right_panel[1] %}
+                <div style="display:flex;gap:14px;align-items:flex-start;font-size:21px;color:var(--hw-body);line-height:1.5;">
+                    <div style="width:10px;height:10px;background:var(--hw-red);margin-top:11px;flex-shrink:0;border-radius:50%;"></div>
+                    <div>{{ pt }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% if slide.source %}<div class="slide-source fade-up">来源：{{ slide.source }}</div>{% endif %}
+</div>

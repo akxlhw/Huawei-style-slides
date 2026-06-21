@@ -62,7 +62,7 @@
       position: fixed;
       inset: 0;
       display: block;
-      background: #000;
+      background: var(--stage-bg, #000);
       color: #fff;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
       overflow: hidden;
@@ -80,7 +80,7 @@
       position: relative;
       transform-origin: center center;
       flex-shrink: 0;
-      background: #fff;
+      background: var(--slide-bg, #fff);
       will-change: transform;
     }
 
@@ -98,9 +98,9 @@
       visibility: hidden;
     }
     ::slotted([data-deck-active]) {
-      opacity: 1;
-      pointer-events: auto;
-      visibility: visible;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      visibility: visible !important;
     }
 
     /* Tap zones for mobile — back/forward thirds like Stories.

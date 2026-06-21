@@ -1,0 +1,32 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div style="display:flex;align-items:center;gap:48px;flex:1;margin-top:10px;">
+        {# Radar: all coordinates pre-computed by the converter (no trig here). #}
+        <svg class="fade-up" viewBox="0 0 500 500" style="width:480px;height:480px;flex-shrink:0;">
+            {% for g in slide.radar.grids %}
+            <polygon points="{{ g }}" fill="none" stroke="#E8E8E8" stroke-width="1"/>
+            {% endfor %}
+            {# spokes (from center 250,250 to outer grid vertices) #}
+            {% for v in slide.radar.grids[-1].split(' ') %}
+            {% set xy = v.split(',') %}<line x1="250" y1="250" x2="{{ xy[0] }}" y2="{{ xy[1] }}" stroke="#E8E8E8" stroke-width="1"/>
+            {% endfor %}
+            {# axis labels #}
+            {% for ax in slide.radar.axes %}
+            <text x="{{ ax.x }}" y="{{ ax.y }}" font-size="14" fill="#595959" font-weight="bold" text-anchor="middle">{{ ax.label }}</text>
+            {% endfor %}
+            {# series polygons #}
+            {% for ser in slide.radar.series %}
+            <polygon points="{{ ser.points }}" fill="var(--hw-{{ ser.color }})" fill-opacity="0.2" stroke="var(--hw-{{ ser.color }})" stroke-width="2"/>
+            {% endfor %}
+        </svg>
+        <div class="fade-up" style="flex:1;display:flex;flex-direction:column;gap:20px;">
+            {% for ser in slide.radar.series %}
+            <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:24px;height:24px;background:var(--hw-{{ ser.color }});border-radius:4px;"></div>
+                <div style="font-size:22px;color:var(--hw-title);font-weight:bold;">{{ ser.name }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

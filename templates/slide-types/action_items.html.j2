@@ -1,19 +1,26 @@
-<div class="slide-content" style="padding:120px 140px;">
-    <div class="top-accent-bar"></div>
-    <h2 class="fade-up" style="font-size:64px; margin-bottom:56px;">{{ slide.title }}</h2>
-    <div class="fade-up" style="display:flex; gap:32px; justify-content:center; margin-top:40px;">
-        {% for a in slide.actions %}
-        <div style="width:420px; background:#F7F7F7; border-top:6px solid var(--hw-red); border-radius:4px; padding:36px 32px; box-sizing:border-box; display:flex; flex-direction:column;">
-            <div style="font-size:30px; font-weight:bold; color:var(--hw-title); margin-bottom:20px;">{{ a.title }}</div>
-            <div style="display:flex; gap:12px; margin-bottom:20px;">
-                <span style="background:var(--hw-title); color:var(--hw-white); padding:6px 14px; border-radius:4px; font-size:18px;">{{ a.timeline }}</span>
-                <span style="background:var(--hw-red); color:var(--hw-white); padding:6px 14px; border-radius:4px; font-size:18px;">负责人：{{ a.owner }}</span>
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;background:linear-gradient(180deg, #FFFFFF 0%, var(--hw-bg-gray) 100%);">
+    {% from 'huawei-macros.j2' import hw_title %}
+    {{ hw_title(slide) }}
+
+    <div style="display:flex;gap:36px;flex:1;align-items:stretch;">
+        {% for action in slide.actions %}
+        <div class="risk-card fade-up card-top-{{ action.color | default('red') }}" style="flex:1;">
+            <div style="margin-bottom:18px;">
+                {% if action.impact is defined %}
+                <span class="tag tag-red" style="margin-right:10px;">{{ action.impact }}</span>
+                {% endif %}
+                <span class="tag tag-gold">{{ action.timeline }}</span>
             </div>
-            <div style="font-size:24px; color:var(--hw-body); line-height:1.5; margin-top:auto;">{{ a.desc }}</div>
+            <h3 style="font-size:32px;">{{ action.title }}</h3>
+            <p>{{ action.description }}</p>
+            <div class="risk-meta">
+                负责人：<strong style="color:var(--hw-title);">{{ action.owner }}</strong>
+            </div>
         </div>
         {% endfor %}
     </div>
-    {% if slide.source %}
-    <div class="slide-source fade-up">来源：{{ slide.source }}</div>
+
+    {% if slide.number is defined %}
+    <div class="slide-number">{{ slide.number }}</div>
     {% endif %}
 </div>

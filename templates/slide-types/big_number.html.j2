@@ -1,0 +1,24 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div style="display:flex;align-items:center;gap:56px;flex:1;">
+        <div class="fade-up" style="flex:0 0 560px;background:linear-gradient(135deg,#CF0A2C 0%,#E63950 100%);border-radius:14px;padding:64px 48px;color:#fff;text-align:center;position:relative;overflow:hidden;">
+            <div style="font-size:128px;font-weight:bold;line-height:1;letter-spacing:-2px;">{{ slide.big_value }}</div>
+            {% if slide.unit %}<div style="font-size:22px;margin-top:18px;">{{ slide.unit }}</div>{% endif %}
+            <div style="position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.1);"></div>
+        </div>
+        <div class="fade-up" style="flex:1;">
+            <p style="font-size:24px;line-height:1.7;color:var(--hw-title);">{{ slide.description }}</p>
+            {% if slide.detail_items %}
+            <div style="margin-top:32px;display:flex;flex-direction:column;gap:16px;">
+                {% for it in slide.detail_items %}
+                <div style="display:flex;gap:14px;align-items:flex-start;">
+                    <div style="width:9px;height:9px;background:var(--hw-red);margin-top:13px;flex-shrink:0;border-radius:50%;"></div>
+                    <div style="font-size:21px;color:var(--hw-body);">{{ it }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+# Scenario: 风险汇报（报告 FIS 框架）
+name: 风险预警汇报
+framework: fis
+secondary: [mece]
+audience: 管理层 / HRD
+goal: review
+duration_minutes: 8
+
+slides:
+  - {idx: 1, layout: cover, title: "XX 项目人力风险预警汇报", key_point: ""}
+  - {idx: 2, layout: executive_summary, title: "核心技术岗流失风险已达橙色预警需立即干预", key_point: "3 名核心成员拟离职，影响项目交付"}
+  - {idx: 3, layout: data_table, title: "FIS 框架拆解风险事实与业务影响", key_point: "事实-影响逐项梳理"}
+  - {idx: 4, layout: matrix_2x2, title: "风险按概率与影响度分四象限排序", key_point: "高概率高影响优先处置"}
+  - {idx: 5, layout: kpi_tracker, title: "关键留人指标当前达成度与预警状态", key_point: "留存率/满意度/离职倾向"}
+  - {idx: 6, layout: action_items, title: "三级应对方案按时效分级执行", key_point: "立即/短期/长期三层措施"}
+  - {idx: 7, layout: closing, title: "谢谢", key_point: ""}

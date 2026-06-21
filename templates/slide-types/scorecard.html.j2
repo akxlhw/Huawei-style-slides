@@ -1,0 +1,17 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div class="fade-up" style="display:flex;flex-direction:column;gap:18px;margin-top:24px;">
+        {% for it in slide.score_items %}
+        {% set bc = 'red' if it.pct >= 85 else ('orange' if it.pct >= 65 else 'gray') %}
+        <div style="display:flex;align-items:center;gap:28px;background:var(--hw-bg-gray);border-radius:8px;padding:22px 28px;border-top:4px solid var(--hw-{{ bc }});">
+            <div style="width:300px;font-size:22px;color:var(--hw-title);font-weight:bold;">{{ it.name }}</div>
+            <div style="width:160px;font-size:26px;color:var(--hw-{{ bc }});letter-spacing:2px;">{{ it.stars }}</div>
+            <div style="flex:1;height:18px;background:var(--hw-light-gray);border-radius:9px;overflow:hidden;">
+                <div style="width:{{ it.pct }}%;height:100%;background:var(--hw-{{ bc }});border-radius:9px;"></div>
+            </div>
+            <div style="width:70px;text-align:right;font-size:22px;font-weight:bold;color:var(--hw-title);font-family:var(--font-en);">{{ it.pct }}%</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

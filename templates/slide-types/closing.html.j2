@@ -1,6 +1,24 @@
-<div class="slide-content" style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%;">
-    <div class="top-accent-bar"></div>
-    <h2 class="fade-up" style="font-size:108px; margin-bottom:40px; text-align:center;">{{ slide.title }}</h2>
-    <p class="fade-up" style="font-size:44px; color:var(--hw-body); text-align:center; max-width:1400px; line-height:1.4;">{{ slide.message }}</p>
-    <div class="accent-bg-red fade-up" style="width:120px; height:8px; margin-top:80px; border-radius:2px;"></div>
+<div class="slide-content" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg, var(--hw-title) 0%, #3A2E2B 100%);color:var(--hw-white);padding:0 120px;position:relative;">
+    {# 华为标志：顶部弧形红线 #}
+    <svg style="position:absolute;top:80px;width:200px;height:24px;" viewBox="0 0 200 24"><path d="M0 20 Q100 -4 200 20" fill="none" stroke="#CF0A2C" stroke-width="3"/></svg>
+
+    <div class="fade-up">
+        <div style="display:inline-block;font-size:20px;padding:8px 20px;color:var(--hw-white);background:rgba(255,255,255,0.12);margin-bottom:40px;border-radius:3px;">结语</div>
+    </div>
+
+    <h2 class="fade-up" style="font-size:80px;color:var(--hw-white);line-height:1.15;max-width:1400px;margin-bottom:40px;">
+        {{ slide.title }}
+    </h2>
+
+    {% if slide.subtitle is defined %}
+    <p class="fade-up" style="font-size:34px;color:rgba(255,255,255,0.85);line-height:1.5;max-width:1200px;">
+        {{ slide.subtitle }}
+    </p>
+    {% endif %}
+
+    <div class="fade-up" style="margin-top:80px;width:80px;height:6px;background:var(--hw-red);border-radius:3px;"></div>
+
+    {% if slide.number is defined %}
+    <div class="slide-number" style="color:rgba(255,255,255,0.5);">{{ slide.number }}</div>
+    {% endif %}
 </div>

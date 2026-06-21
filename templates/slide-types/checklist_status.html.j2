@@ -1,0 +1,27 @@
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;background:linear-gradient(180deg, #FFFFFF 0%, var(--hw-bg-gray) 100%);">
+    {% from 'huawei-macros.j2' import hw_title %}
+    {{ hw_title(slide) }}<div class="fade-up" style="margin-top:32px;border:1px solid var(--hw-light-gray);border-radius:6px;overflow:hidden;background:var(--hw-white);">
+        {# Header row #}
+        <div style="display:flex;background:var(--hw-title);">
+            {% for col in slide.columns %}
+            <div style="flex:1;padding:18px 20px;font-size:18px;color:var(--hw-white);font-weight:bold;">{{ col }}</div>
+            {% endfor %}
+        </div>
+        {# Data rows: last cell carries the status key #}
+        {% for row in slide.rows %}
+        {% set status = row[-1] %}
+        {% set stcolor = {'done': 'blue', 'active': 'green', 'risk': 'orange', 'pending': 'gray'}.get(status, 'gray') %}
+        {% set stlabel = {'done': '✓ 完成', 'active': '→ 活跃', 'risk': '△ 困难', 'pending': '○ 早期'}.get(status, status) %}
+        <div style="display:flex;{% if not loop.first %}border-top:1px solid var(--hw-light-gray);{% endif %}
+            background:{% if loop.index is even %}#FAFAFA{% else %}var(--hw-white){% endif %};">
+            {% for cell in row[:-1] %}
+            <div style="flex:1;padding:16px 20px;font-size:18px;color:var(--hw-body);display:flex;align-items:center;">{{ cell }}</div>
+            {% endfor %}
+            <div style="flex:1;padding:16px 20px;display:flex;align-items:center;justify-content:center;">
+                <span style="padding:6px 16px;border-radius:14px;background:var(--hw-{{ stcolor }});color:var(--hw-white);font-size:16px;font-weight:bold;">{{ stlabel }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if slide.source %}<div class="slide-source fade-up">来源：{{ slide.source }}</div>{% endif %}
+</div>

@@ -1,0 +1,40 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div style="display:flex;align-items:center;gap:48px;flex:1;margin-top:10px;">
+        {# 同心圆：多层嵌套环 + 中心 + 各环节点 #}
+        <svg class="fade-up" viewBox="0 0 600 600" style="width:560px;height:560px;flex-shrink:0;">
+            {% set nr = slide.ring.rings | length %}
+            {% for ring in slide.ring.rings %}
+                {% set r = 280 - loop.index0 * (240 / nr) %}
+                <circle cx="300" cy="300" r="{{ r }}" fill="rgba(207,10,44,{{ 0.03 + loop.index0 * 0.04 }})" stroke="var(--hw-{{ ring.color }})" stroke-width="2" opacity="0.6"/>
+                {# 环标签置于顶部 #}
+                <text x="300" y="{{ 300 - r + 22 }}" text-anchor="middle" font-size="16" fill="var(--hw-{{ ring.color }})" font-weight="bold">{{ ring.label }}</text>
+            {% endfor %}
+            {# 中心圆 #}
+            <circle cx="300" cy="300" r="40" fill="#CF0A2C"/>
+            <text x="300" y="296" text-anchor="middle" font-size="16" fill="#fff" font-weight="bold">{{ slide.ring.center_label }}</text>
+            <text x="300" y="316" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.85)">{{ slide.ring.center_sub }}</text>
+            {# 各环节点：用最外环半径定位，按 ring.index 分布在不同半径上 #}
+            {% for ring in slide.ring.rings %}
+                {% set ring_r = 280 - loop.index0 * (240 / nr) %}
+                {% for node in ring.nodes %}
+                    {% set nx = 300 + ring_r * (node.x - 50) / 50 %}
+                    {% set ny = 300 + ring_r * (node.y - 50) / 50 %}
+                    <circle cx="{{ nx }}" cy="{{ ny }}" r="5" fill="var(--hw-{{ ring.color }})"/>
+                    <text x="{{ nx }}" y="{{ ny - 12 }}" text-anchor="middle" font-size="13" fill="#1a1a1a" font-weight="bold">{{ node.label }}</text>
+                {% endfor %}
+            {% endfor %}
+        </svg>
+
+        {# 右侧卡片 #}
+        <div class="fade-up" style="flex:1;display:flex;flex-direction:column;gap:22px;">
+            {% for card in slide.ring.side_cards %}
+            <div class="hw-card {{ card.color }}" style="border-top:none;border-left:5px solid var(--hw-{{ card.color }});border-radius:0 8px 8px 0;">
+                <div class="hw-card-title" style="color:var(--hw-{{ card.color }});font-size:23px;">{{ card.title }}</div>
+                <div class="hw-card-desc">{{ card.desc }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

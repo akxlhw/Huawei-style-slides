@@ -20,7 +20,7 @@ metadata:
 ## Overview
 
 Generate HR presentations for recruitment and allocation scenarios.
-- **Visual style**: Huawei ICT Academy spec (Huawei Red #C7000B, title black #231815, body gray #595757, Microsoft YaHei/Arial, light backgrounds).
+- **Visual style**: Huawei ICT Academy spec (Huawei Red #CF0A2C Pantone 185C, title black #231815, body gray #595757, Microsoft YaHei/Arial, light backgrounds).
 - **Logical frameworks**: McKinsey frameworks mapped to HR scenarios (pyramid, MECE, SCQA, issue tree, seven-step, 9-box, 7S, 3C, OHI, talent-to-value).
 - **Outputs**:
   - `deck.pptx` — editable Office PPTX via MckEngine.

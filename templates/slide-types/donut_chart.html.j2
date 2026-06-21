@@ -1,0 +1,31 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div style="display:flex;align-items:center;gap:64px;margin-top:20px;flex:1;">
+        {% set r = 120 %}{% set c = 753.98 %}{% set offset = namespace(value=0) %}
+        <svg class="fade-up" viewBox="0 0 320 320" style="width:420px;height:420px;flex-shrink:0;">
+            <circle cx="160" cy="160" r="{{ r }}" fill="none" stroke="var(--hw-light-gray)" stroke-width="50"/>
+            {% for seg in slide.segments %}
+                {% set len = (seg.pct / 100 * c) %}
+                <circle cx="160" cy="160" r="{{ r }}" fill="none" stroke="var(--hw-{{ seg.color }})" stroke-width="50" stroke-dasharray="{{ len }} {{ c - len }}" stroke-dashoffset="{{ -offset.value }}" transform="rotate(-90 160 160)"/>
+                {% set offset.value = offset.value + len %}
+            {% endfor %}
+            {% if slide.center_label %}
+            <text x="160" y="155" text-anchor="middle" font-size="54" font-weight="bold" fill="var(--hw-red)" font-family="var(--font-en)">{{ slide.center_label }}</text>
+            <text x="160" y="188" text-anchor="middle" font-size="20" fill="var(--hw-body)">{{ slide.center_sub }}</text>
+            {% endif %}
+        </svg>
+        <div class="fade-up" style="flex:1;display:flex;flex-direction:column;gap:18px;">
+            {% for seg in slide.segments %}
+            <div style="display:flex;align-items:center;gap:16px;">
+                <div style="width:22px;height:22px;background:var(--hw-{{ seg.color }});border-radius:4px;flex-shrink:0;"></div>
+                <div style="font-size:21px;color:var(--hw-title);font-weight:bold;min-width:60px;">{{ seg.pct }}%</div>
+                <div style="font-size:20px;color:var(--hw-body);">{{ seg.label }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if slide.summary %}
+    <div class="fade-up" style="margin-top:20px;padding:20px 28px;background:var(--hw-bg-gray);border-left:5px solid var(--hw-red);font-size:20px;color:var(--hw-title);">{{ slide.summary }}</div>
+    {% endif %}
+</div>

@@ -1,0 +1,37 @@
+# Scenario: Huawei Slide Skill 研究与架构设计（验收 deck）
+# Framework: 金字塔原理 + SCQA + MECE
+# 这是把两份调研报告做成 PPT 的自验收场景。
+
+name: Huawei Slide Skill 研究与架构设计
+framework: pyramid
+secondary: [scqa, mece]
+audience: 技术委员会 / 产品负责人
+goal: review
+duration_minutes: 28
+
+# 每个内容页标题必须是结论性陈述句（>10 字符），符合 gate 规则。
+slides:
+  - {idx: 1, layout: cover, title: "Huawei Slide Skill 研究与架构设计", key_point: ""}
+  - {idx: 2, layout: executive_summary, title: "四层解耦架构与双通道生成构成 Skill 核心设计", key_point: "四层解耦 + 双通道 + 38 项检查清单是三大核心设计"}
+  - {idx: 3, layout: icon_stat_grid, title: "六组核心数据刻画 Skill 研究与设计规模", key_point: "38 项检查 4 层架构 2 条通道"}
+  - {idx: 4, layout: pyramid_triangle, title: "金字塔原理四大原则直接转化为 PPT 生成约束", key_point: "结论先行以上统下归类分组逻辑递进"}
+  - {idx: 5, layout: ecosystem_ring, title: "四层解耦架构让每层可独立升级互不影响", key_point: "内容→智能→布局→生成四层映射四大维度"}
+  - {idx: 6, layout: cycle, title: "生成-评估-优化闭环由理论体系自然支撑", key_point: "无需额外粘合层即可闭环"}
+  - {idx: 7, layout: side_by_side, title: "约束即生成范式用硬约束前置替代多轮修复", key_point: "传统多轮迭代对比一次生成即合规"}
+  - {idx: 8, layout: swot, title: "双通道对比揭示 PPT 与 HTML 各自最优场景", key_point: "PPT 强编辑，HTML 强表现"}
+  - {idx: 9, layout: case_study, title: "双通道独立生成让 HTML 不再是 PPT 劣化副本", key_point: "SAR 叙事呈现双通道设计哲学"}
+  - {idx: 10, layout: grouped_bar, title: "十种汇报场景对应差异化框架与页面预算", key_point: "时长越长页数越多框架越复杂"}
+  - {idx: 11, layout: decision_tree, title: "场景到框架再到页面的路由实现规则化生成", key_point: "10 场景→8 框架→7 页型路由树"}
+  - {idx: 12, layout: donut_chart, title: "38 项检查清单分三类覆盖内容与逻辑质量", key_point: "CS/ID/LJ 三类各约占三分之一"}
+  - {idx: 13, layout: scorecard, title: "四维度评分体系量化 PPT 整体质量", key_point: "内容35/视觉30/合规25/数据10"}
+  - {idx: 14, layout: data_table, title: "华为色彩体系标准值经交叉验证统一采用 CF0A2C", key_point: "华为红 #CF0A2C Pantone 185C"}
+  - {idx: 15, layout: three_stat, title: "字号层级体系确保标题与正文形成有效视觉区分", key_point: "标题字号 ≥ 正文 1.5 倍"}
+  - {idx: 16, layout: checklist_status, title: "七类页面标准结构对齐留白与配色约束", key_point: "封面留白≥40% 数据页留白≥20%"}
+  - {idx: 17, layout: kpi_tracker, title: "认知负荷预算为信息密度控制提供量化基础", key_point: "各页型字数与图表数有明确上限"}
+  - {idx: 18, layout: side_by_side, title: "五层架构在四层基础上新增表现层隔离渲染", key_point: "V2 四层→五层架构演进"}
+  - {idx: 19, layout: metric_cards, title: "V2 新增四项能力强化双通道与可视化", key_point: "双通道/图标/中文排版/表现层"}
+  - {idx: 20, layout: radar_chart, title: "双通道在六个维度上各有胜负需按场景选择", key_point: "PPT 胜编辑 HTML 胜交互"}
+  - {idx: 21, layout: harvey_ball_compare, title: "Harvey 球矩阵量化双通道能力支持度", key_point: "PPT 强编辑 HTML 强交互"}
+  - {idx: 22, layout: gantt_chart, title: "三阶段实施路线图覆盖 P0 核心到 P2 增强", key_point: "P0 六周 P1 九周 P2 十周"}
+  - {idx: 23, layout: action_items, title: "关键里程碑与风险需在 P0 阶段优先管控", key_point: "中文排版与门禁自动化是风险点"}
+  - {idx: 24, layout: closing, title: "谢谢", key_point: ""}

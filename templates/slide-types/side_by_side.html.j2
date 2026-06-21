@@ -1,0 +1,20 @@
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;background:linear-gradient(180deg, #FFFFFF 0%, var(--hw-bg-gray) 100%);">
+    {% from 'huawei-macros.j2' import hw_title %}
+    {{ hw_title(slide) }}<div style="display:flex;gap:0;margin-top:40px;flex:1;align-items:stretch;">
+        {% for opt in slide.options %}
+        {% set is_right = not loop.first %}
+        <div class="fade-up" style="flex:1;background:{% if is_right %}var(--hw-white){% else %}var(--hw-bg-gray){% endif %};border-{% if is_right %}left{% else %}right{% endif %}:1px solid var(--hw-light-gray);padding:40px 36px;display:flex;flex-direction:column;">
+            <div style="font-size:30px;font-weight:bold;color:{% if is_right %}var(--hw-red){% else %}var(--hw-body){% endif %};margin-bottom:28px;padding-bottom:16px;border-bottom:3px solid {% if is_right %}var(--hw-red){% else %}var(--hw-light-gray){% endif %};">{{ opt.title }}</div>
+            <div style="display:flex;flex-direction:column;gap:18px;">
+                {% for pt in opt.points %}
+                <div style="display:flex;gap:14px;align-items:flex-start;font-size:22px;color:var(--hw-title);line-height:1.5;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:{% if is_right %}var(--hw-red){% else %}var(--hw-med-gray){% endif %};color:var(--hw-white);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:bold;flex-shrink:0;">{{ loop.index }}</div>
+                    <div style="padding-top:2px;">{{ pt }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if slide.source %}<div class="slide-source fade-up">来源：{{ slide.source }}</div>{% endif %}
+</div>

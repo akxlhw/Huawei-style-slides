@@ -1,0 +1,13 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div class="fade-up" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;flex:1;align-content:center;">
+        {% for it in slide.get('items', []) %}
+        <div class="hw-card" style="text-align:center;">
+            <div class="hw-card-title" style="color:var(--hw-red);">{{ it[0] if it is iterable else it }}</div>
+            <div class="hw-card-desc">{{ it[1] if it is iterable and it|length > 1 else '' }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if slide.source %}<div class="hw-source">来源：{{ slide.source }}</div>{% endif %}
+</div>

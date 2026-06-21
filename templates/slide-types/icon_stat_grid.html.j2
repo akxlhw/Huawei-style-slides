@@ -1,0 +1,13 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div class="fade-up" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:30px;flex:1;align-content:start;">
+        {% for it in slide.stat_items %}
+        <div class="hw-card {{ it.color }}" style="align-items:center;text-align:center;border-top-width:5px;">
+            <div class="hw-kpi-num" style="color:var(--hw-{{ it.color }});font-family:var(--font-en);font-size:56px;">{{ it.num }}</div>
+            <div class="hw-card-title" style="margin-top:12px;">{{ it.label }}</div>
+            <div class="hw-card-desc">{{ it.desc }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

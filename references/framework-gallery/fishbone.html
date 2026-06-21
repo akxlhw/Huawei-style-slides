@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<title>鱼骨图 Ishikawa</title>
+<style>
+:root{--red:#CF0A2C;--blue:#007DFF;--green:#669900;--orange:#FF9900;--yellow:#FCC800;
+--gray:#DCDDDD;--title:#1a1a1a;--body:#595959;--muted:#999;--line:#E8E8E8;--bg:#F7F8FA;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Microsoft YaHei",sans-serif;}
+.slide{width:1920px;height:1080px;background:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column;padding:70px 90px 60px;}
+.brand{position:absolute;left:0;top:0;width:10px;height:100%;background:#CF0A2C;}
+.twrap{position:relative;margin-bottom:36px;}
+.tag{display:inline-block;font-size:15px;color:#CF0A2C;font-weight:bold;background:rgba(207,10,44,.08);padding:4px 14px;border-radius:3px;margin-bottom:12px;}
+.h1{font-size:40px;font-weight:bold;color:#1a1a1a;}
+.en{font-size:16px;color:#999;margin-top:6px;}
+.arc{position:absolute;left:0;bottom:-14px;width:280px;height:20px;}
+.src{position:absolute;left:90px;bottom:28px;font-size:13px;color:#999;}
+.pn{position:absolute;right:90px;bottom:28px;font-size:14px;color:#999;}
+.card{background:#F7F8FA;border-radius:8px;padding:24px;border-top:4px solid var(--c,#CF0A2C);}
+</style></head>
+<body><div class="slide"><div class="brand"></div>
+<div class="twrap"><span class="tag">思维框架示例</span>
+<div class="h1">鱼骨图 Ishikawa</div><div class="en">Fishbone / Cause-and-Effect Diagram</div></div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;">
+    <svg viewBox="0 0 1740 720" style="width:100%;max-height:680px;">
+    <line x1="120" y1="480" x2="1500" y2="480" stroke="#1a1a1a" stroke-width="4"/>
+    <line x1="300" y1="330" x2="510" y2="480" stroke="#DCDDDD" stroke-width="2"/><rect x="210" y="286" width="180" height="60" rx="6" fill="#CF0A2C" fill-opacity="0.1" stroke="#CF0A2C"/><text x="300" y="312" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="bold">人 Man</text><text x="300" y="328" text-anchor="middle" font-size="14" fill="#595959">技能不匹配/人手不足</text><line x1="720" y1="290" x2="930" y2="480" stroke="#DCDDDD" stroke-width="2"/><rect x="630" y="246" width="180" height="60" rx="6" fill="#CF0A2C" fill-opacity="0.1" stroke="#CF0A2C"/><text x="720" y="272" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="bold">料 Material</text><text x="720" y="288" text-anchor="middle" font-size="14" fill="#595959">预算不足/资源缺</text><line x1="1140" y1="250" x2="1350" y2="480" stroke="#DCDDDD" stroke-width="2"/><rect x="1050" y="206" width="180" height="60" rx="6" fill="#CF0A2C" fill-opacity="0.1" stroke="#CF0A2C"/><text x="1140" y="232" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="bold">环 Environment</text><text x="1140" y="248" text-anchor="middle" font-size="14" fill="#595959">市场变化/政策</text><line x1="300" y1="560" x2="510" y2="480" stroke="#DCDDDD" stroke-width="2"/><rect x="210" y="570" width="180" height="60" rx="6" fill="#007DFF" fill-opacity="0.1" stroke="#007DFF"/><text x="300" y="596" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="bold">机 Machine</text><text x="300" y="612" text-anchor="middle" font-size="14" fill="#595959">工具落后/系统卡顿</text><line x1="720" y1="600" x2="930" y2="480" stroke="#DCDDDD" stroke-width="2"/><rect x="630" y="610" width="180" height="60" rx="6" fill="#007DFF" fill-opacity="0.1" stroke="#007DFF"/><text x="720" y="636" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="bold">法 Method</text><text x="720" y="652" text-anchor="middle" font-size="14" fill="#595959">流程繁琐/标准缺失</text><line x1="1140" y1="640" x2="1350" y2="480" stroke="#DCDDDD" stroke-width="2"/><rect x="1050" y="650" width="180" height="60" rx="6" fill="#007DFF" fill-opacity="0.1" stroke="#007DFF"/><text x="1140" y="676" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="bold">测 Measurement</text><text x="1140" y="692" text-anchor="middle" font-size="14" fill="#595959">指标偏差/KPI错</text>
+    <polygon points="1500,440 1500,520 1600,480" fill="#CF0A2C"/>
+    <rect x="1600" y="440" width="130" height="80" rx="8" fill="#CF0A2C"/>
+    <text x="1665" y="475" text-anchor="middle" font-size="18" fill="#fff" font-weight="bold">问题</text>
+    <text x="1665" y="500" text-anchor="middle" font-size="14" fill="#fff">招聘周期长</text>
+    <text x="80" y="490" text-anchor="middle" font-size="16" fill="#999">起点</text>
+    </svg></div>
+<div class="src">来源：华为 Style Slides 框架图库</div></div>
+</body></html>

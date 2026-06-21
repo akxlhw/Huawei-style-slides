@@ -22,7 +22,7 @@ def render_html(content: Dict[str, Any], output_dir: Path) -> Path:
     title = slides[0].get("title", "Huawei HR PPT") if slides else "Huawei HR PPT"
 
     try:
-        html = template.render(title=title, slides=slides)
+        html = template.render(title=title, slides=slides, content=content)
     except TemplateNotFound as e:
         missing = getattr(e, "name", str(e))
         raise TemplateNotFound(

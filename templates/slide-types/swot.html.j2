@@ -1,0 +1,19 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div class="fade-up" style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:22px;flex:1;margin-top:10px;">
+        {% for q in slide.quadrants %}
+        <div class="hw-card {{ q.color }}" style="border-top-width:5px;">
+            <div class="hw-card-title" style="color:var(--hw-{{ q.color }});font-size:23px;margin-bottom:16px;">{{ q.label }}</div>
+            <div style="display:flex;flex-direction:column;gap:11px;">
+                {% for p in q.points %}
+                <div style="display:flex;gap:11px;align-items:flex-start;font-size:18px;color:var(--hw-body);line-height:1.5;">
+                    <div style="width:7px;height:7px;background:var(--hw-{{ q.color }});margin-top:10px;flex-shrink:0;border-radius:50%;"></div>
+                    <div>{{ p }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

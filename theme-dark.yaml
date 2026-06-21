@@ -1,0 +1,45 @@
+# Huawei dark theme — for special/launch scenarios.
+# Usage: set HUAWEI_THEME=dark before running orchestrator.
+# Or copy over theme.yaml to switch globally.
+
+brand:
+  zh: 华为 ICT
+  en: HUAWEI ICT
+
+colors:
+  red: "#CF0A2C"
+  title_black: "#FFFFFF"      # white text on dark
+  body_gray: "#CCCCCC"
+  med_gray: "#888888"
+  white: "#0A0A0A"            # dark background
+  light_gray: "#333333"
+  bg_gray: "#1A1A1A"
+  tech_blue: "#3B9EFF"
+  orange: "#FFB020"
+  yellow: "#FCC800"
+  green: "#7ACC33"
+  ict_blue: "#40C8D8"
+
+fonts:
+  zh: Microsoft YaHei
+  en: Arial
+
+mck_overrides:
+  NAVY: "#CF0A2C"
+  BLACK: "#FFFFFF"
+  DARK_GRAY: "#CCCCCC"
+  MED_GRAY: "#888888"
+  LINE_GRAY: "#333333"
+  BG_GRAY: "#1A1A1A"
+  ACCENT_BLUE: "#3B9EFF"
+  ACCENT_GREEN: "#7ACC33"
+  ACCENT_ORANGE: "#FFB020"
+  ACCENT_RED: "#CF0A2C"
+  ACCENT_YELLOW: "#FCC800"
+  LIGHT_BLUE: "#0D2240"
+  LIGHT_GREEN: "#0D2215"
+  LIGHT_ORANGE: "#221505"
+  LIGHT_RED: "#220510"
+  FONT_HEADER: Microsoft YaHei
+  FONT_BODY: Microsoft YaHei
+  FONT_EA: Microsoft YaHei

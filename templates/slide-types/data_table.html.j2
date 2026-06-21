@@ -1,25 +1,18 @@
-<div class="slide-content" style="padding:120px 140px;">
-    <div class="top-accent-bar"></div>
-    <h2 class="fade-up" style="font-size:64px; margin-bottom:56px;">{{ slide.title }}</h2>
-    <table class="fade-up" style="width:100%; border-collapse:collapse; font-size:28px; color:var(--hw-body);">
-        <thead>
-            <tr style="background:var(--hw-title); color:var(--hw-white);">
-                {% for h in slide.headers %}
-                <th style="padding:26px 28px; text-align:left; font-weight:bold; border:1px solid var(--hw-light-gray);">{{ h }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in slide.rows %}
-            <tr style="{% if loop.index0 % 2 == 1 %}background:#F7F7F7;{% endif %}">
-                {% for cell in row %}
-                <td style="padding:22px 28px; border:1px solid var(--hw-light-gray); color:var(--hw-title);">{{ cell }}</td>
-                {% endfor %}
-            </tr>
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div class="fade-up" style="margin-top:24px;border:1px solid var(--hw-line);border-radius:10px;overflow:hidden;background:#fff;flex:1;display:flex;flex-direction:column;">
+        <div style="display:flex;background:var(--hw-title);">
+            {% for col in slide.headers %}
+            <div style="flex:1;padding:20px 22px;font-size:17px;color:#fff;font-weight:bold;">{{ col }}</div>
             {% endfor %}
-        </tbody>
-    </table>
-    {% if slide.source %}
-    <div class="slide-source fade-up">来源：{{ slide.source }}</div>
-    {% endif %}
+        </div>
+        {% for row in slide.rows %}
+        <div style="display:flex;{% if not loop.first %}border-top:1px solid var(--hw-line);{% endif %}background:{% if loop.index is even %}var(--hw-bg-gray){% else %}#fff{% endif %};flex:1;">
+            {% for cell in row %}
+            <div style="flex:1;padding:16px 22px;font-size:17px;color:{% if loop.first %}var(--hw-title){% else %}var(--hw-body){% endif %};{% if loop.first %}font-weight:bold;{% endif %}display:flex;align-items:center;">{{ cell }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
 </div>

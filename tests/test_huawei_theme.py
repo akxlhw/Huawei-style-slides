@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from huawei_theme import HUAWEI_COLORS, HUAWEI_FONTS, apply_to_mck_engine
 
 def test_huawei_colors():
-    assert HUAWEI_COLORS["red"] == "#C7000B"
+    assert HUAWEI_COLORS["red"] == "#CF0A2C"
     assert HUAWEI_COLORS["title_black"] == "#231815"
     assert HUAWEI_COLORS["body_gray"] == "#595757"
 

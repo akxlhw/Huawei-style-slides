@@ -1,0 +1,15 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;align-items:center;height:100%;">
+    {{ hw_title(slide) }}
+    {# True triangular pyramid: stacked centered bars of decreasing width #}
+    <div class="fade-up" style="margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;justify-content:center;">
+        {% set n = slide.levels | length %}
+        {% for lv in slide.levels %}
+        {% set w = 900 - loop.index0 * (700 / n) | int %}
+        <div style="width:{{ w }}px;display:flex;align-items:center;background:var(--hw-{{ lv.color }});border-radius:4px;padding:18px 32px;color:#fff;justify-content:center;gap:16px;">
+            <span style="font-size:20px;font-weight:bold;white-space:nowrap;">{{ lv.label }}</span>
+            <span style="font-size:16px;opacity:0.92;">· {{ lv.desc }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>

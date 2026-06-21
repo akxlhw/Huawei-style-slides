@@ -12,21 +12,24 @@ def build_outline(
     goal: str,
     duration_minutes: int,
     output_dir: Path,
+    scenario_path: str | None = None,
 ) -> Dict[str, Any]:
-    outline = build_default_outline(scenario)
+    outline = build_default_outline(scenario, path=scenario_path)
+    outline["scenario"] = scenario
     outline["brief"]["audience"] = audience
     outline["brief"]["goal"] = goal
     outline["brief"]["duration_minutes"] = duration_minutes
 
-    # Trim slides if duration is short
+    # Trim slides if duration is short. Keep cover (first) + closing (last)
+    # and drop from the middle; the executive_summary, if present as slide 2,
+    # is preserved as part of the kept head.
     max_slides = int(duration_minutes * 1.2)
-    if len(outline["slides"]) > max_slides:
-        # Always keep cover, executive_summary, and closing
-        keep_indices = {0, 1, len(outline["slides"]) - 1}
+    if len(outline["slides"]) > max_slides and max_slides >= 3:
+        head = outline["slides"][:2]   # cover + (executive_summary or 2nd)
+        tail = outline["slides"][-1:]  # closing
         middle = outline["slides"][2:-1]
-        remaining = max_slides - len(keep_indices)
-        middle = middle[:remaining]
-        outline["slides"] = [outline["slides"][0]] + middle + [outline["slides"][-1]]
+        remaining = max_slides - len(head) - len(tail)
+        outline["slides"] = head + middle[:max(0, remaining)] + tail
         # Re-index
         for i, slide in enumerate(outline["slides"], start=1):
             slide["idx"] = i

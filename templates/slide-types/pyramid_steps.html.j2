@@ -1,0 +1,20 @@
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;background:linear-gradient(180deg, #FFFFFF 0%, var(--hw-bg-gray) 100%);">
+    {% from 'huawei-macros.j2' import hw_title %}
+    {{ hw_title(slide) }}{# Ascending staircase: each step wider/taller than the previous. #}
+    <div class="fade-up" style="display:flex;align-items:flex-end;gap:0;margin-top:48px;flex:1;">
+        {% for lv in slide.levels %}
+        {% set h = 160 + loop.index0 * 70 %}
+        {% set w = 100 / (slide.levels | length) %}
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            <div style="width:90%;height:{{ h }}px;background:var(--hw-red);
+                {% if not loop.first %}border-left:1px solid var(--hw-white);{% endif %}
+                display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--hw-white);border-radius:4px 4px 0 0;">
+                <div style="width:64px;height:64px;border-radius:50%;background:var(--hw-white);color:var(--hw-red);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:bold;margin-bottom:16px;">{{ lv.icon }}</div>
+                <div style="font-size:30px;font-weight:bold;">{{ lv.label }}</div>
+            </div>
+            <div style="width:90%;background:var(--hw-white);border:1px solid var(--hw-light-gray);border-top:none;padding:20px;font-size:18px;color:var(--hw-body);line-height:1.5;min-height:90px;">{{ lv.description }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if slide.source %}<div class="slide-source fade-up">来源：{{ slide.source }}</div>{% endif %}
+</div>

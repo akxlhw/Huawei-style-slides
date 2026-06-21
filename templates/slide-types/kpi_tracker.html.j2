@@ -1,0 +1,33 @@
+{% from 'huawei-macros.j2' import hw_title %}
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;height:100%;">
+    {{ hw_title(slide) }}
+    <div class="fade-up" style="display:flex;gap:24px;font-size:16px;color:var(--hw-muted);font-weight:bold;padding:10px 0;border-bottom:2px solid var(--hw-title);margin-top:16px;">
+        <div style="width:280px;">KPI 指标</div>
+        <div style="flex:1;">进度</div>
+        <div style="width:110px;text-align:center;">达成率</div>
+        <div style="width:90px;text-align:center;">状态</div>
+    </div>
+    <div class="fade-up" style="display:flex;flex-direction:column;">
+        {% for k in slide.kpis %}
+        {% set scm = {'on': 'green', 'risk': 'orange', 'off': 'red'} %}
+        {% set slabel = {'on': '达标', 'risk': '关注', 'off': '滞后'} %}
+        {% set stcolor = scm[k.status] %}
+        <div style="display:flex;align-items:center;gap:24px;padding:16px 0;border-bottom:1px solid var(--hw-line);">
+            <div style="width:280px;">
+                <div style="font-size:20px;color:var(--hw-title);font-weight:bold;">{{ k.name }}</div>
+                <div style="font-size:15px;color:var(--hw-body);margin-top:3px;">{{ k.detail }}</div>
+            </div>
+            <div style="flex:1;height:22px;background:var(--hw-light-gray);border-radius:4px;overflow:hidden;">
+                <div style="width:{{ k.pct }}%;height:100%;background:var(--hw-{{ stcolor }});border-radius:4px;"></div>
+            </div>
+            <div style="width:110px;text-align:center;font-size:26px;font-weight:bold;color:var(--hw-title);font-family:var(--font-en);">{{ k.pct }}%</div>
+            <div style="width:90px;text-align:center;">
+                <span style="display:inline-block;padding:5px 12px;border-radius:12px;background:var(--hw-{{ stcolor }});color:#fff;font-size:14px;font-weight:bold;">{{ slabel[k.status] }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if slide.summary %}
+    <div class="fade-up" style="margin-top:auto;padding:18px 28px;background:var(--hw-bg-gray);border-left:5px solid var(--hw-red);font-size:20px;color:var(--hw-title);">{{ slide.summary }}</div>
+    {% endif %}
+</div>

@@ -1,0 +1,16 @@
+# Scenario: 方案评审（BSBRP 框架）
+name: 招聘方案评审
+framework: bsbrp
+secondary: [mece]
+audience: 决策层 / 预算委员会
+goal: decision
+duration_minutes: 20
+
+slides:
+  - {idx: 1, layout: cover, title: "2027 年招聘渠道优化方案评审", key_point: ""}
+  - {idx: 2, layout: executive_summary, title: "建议新增 AI 智能筛选渠道预计 ROI 达 3.5", key_point: "结论先行推荐采纳"}
+  - {idx: 3, layout: side_by_side, title: "B 背景与 S 方案对比展示优化方向", key_point: "现状痛点 vs 方案优势"}
+  - {idx: 4, layout: data_table, title: "B 收益量化预估含成本节约与效率提升", key_point: "年节约 50 万效率 +30%"}
+  - {idx: 5, layout: swot, title: "R 风险识别与应对措施四象限分析", key_point: "数据安全/学习成本/兼容性"}
+  - {idx: 6, layout: gantt_chart, title: "P 实施计划含试点推广全面三阶段", key_point: "Q1试点→Q2推广→Q3全面"}
+  - {idx: 7, layout: closing, title: "谢谢", key_point: ""}

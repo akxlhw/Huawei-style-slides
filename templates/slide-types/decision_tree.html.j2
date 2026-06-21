@@ -1,0 +1,41 @@
+<div class="slide-content" style="padding-top:90px;padding-right:90px;padding-bottom:80px;display:flex;flex-direction:column;background:linear-gradient(180deg, #FFFFFF 0%, var(--hw-bg-gray) 100%);">
+    {% from 'huawei-macros.j2' import hw_title %}
+    {{ hw_title(slide) }}<div style="display:flex;align-items:flex-start;gap:40px;margin-top:32px;flex:1;">
+        {# Tree: root on top, branches below #}
+        <div class="fade-up" style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            {# Root #}
+            <div style="padding:16px 40px;background:var(--hw-title);color:var(--hw-white);border-radius:8px;font-size:24px;font-weight:bold;margin-bottom:8px;">{{ slide.tree.root }}</div>
+            <div style="width:2px;height:28px;background:var(--hw-med-gray);"></div>
+            {# Branches row #}
+            <div style="display:flex;gap:24px;align-items:flex-start;width:100%;justify-content:center;">
+                {% for br in slide.tree.branches %}
+                <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:300px;">
+                    <div style="width:2px;height:20px;background:var(--hw-med-gray);"></div>
+                    <div style="width:100%;background:var(--hw-{{ br.color }});border-radius:8px;padding:16px;text-align:center;margin-bottom:14px;">
+                        <div style="font-size:22px;font-weight:bold;color:var(--hw-white);">{{ br.title }}</div>
+                        <div style="font-size:16px;color:rgba(255,255,255,0.85);margin-top:4px;">{{ br.metric }}</div>
+                    </div>
+                    {% for ch in br.children %}
+                    <div style="width:90%;background:var(--hw-white);border:1px solid var(--hw-light-gray);border-left:4px solid var(--hw-{{ br.color }});border-radius:4px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+                        <span style="font-size:18px;color:var(--hw-title);">{{ ch.name }}</span>
+                        <span style="font-size:15px;color:var(--hw-med-gray);">{{ ch.metric }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if slide.right_panel %}
+        <div class="fade-up" style="width:280px;flex-shrink:0;background:var(--hw-white);border-left:6px solid var(--hw-red);border-radius:0 8px 8px 0;padding:28px;">
+            <div style="font-size:22px;font-weight:bold;color:var(--hw-red);margin-bottom:18px;">{{ slide.right_panel[0] }}</div>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+                {% for pt in slide.right_panel[1] %}
+                <div style="font-size:18px;color:var(--hw-body);line-height:1.5;padding-left:16px;border-left:3px solid var(--hw-red);">{{ pt }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% if slide.source %}<div class="slide-source fade-up">来源：{{ slide.source }}</div>{% endif %}
+</div>

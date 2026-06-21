@@ -1,0 +1,13 @@
+{# Huawei-style reusable title block.
+   Usage in slide-type templates: {% from 'huawei-macros.j2' import hw_title %}
+   {% call hw_title(slide) %} ... optional extra ... {% endcall %}
+   The arc-red underline is OFF by default (it was a misjudged "every-page"
+   element). Enable per-slide via slide.show_arc = true. #}
+{% macro hw_title(slide) %}
+<div class="hw-title fade-up">
+    {% if slide.section_title %}<span class="hw-title-tag">{{ slide.section_title }}</span>{% endif %}
+    <div class="hw-title-zh">{{ slide.title }}</div>
+    {% if slide.headline %}<div class="hw-title-en">{{ slide.headline }}</div>{% endif %}
+    {% if slide.show_arc %}<svg class="hw-title-arc" viewBox="0 0 300 22"><path d="M0 20 Q150 -5 300 20" fill="none" stroke="#CF0A2C" stroke-width="3"/></svg>{% endif %}
+</div>
+{% endmacro %}

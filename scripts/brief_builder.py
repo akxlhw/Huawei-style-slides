@@ -37,8 +37,9 @@ def build_brief(
     goal: str,
     duration_minutes: int,
     output_dir: Path,
+    scenario_path: str | None = None,
 ) -> str:
-    s = get_scenario(scenario)
+    s = get_scenario(scenario, path=scenario_path)
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 

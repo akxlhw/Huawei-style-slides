@@ -1,0 +1,18 @@
+# Scenario: 述职总结（STAR + OKR）
+name: 年度述职总结
+framework: star
+secondary: [okr]
+audience: 直属领导 / HRD
+goal: review
+duration_minutes: 15
+
+slides:
+  - {idx: 1, layout: cover, title: "2026 年度招聘工作述职汇报", key_point: ""}
+  - {idx: 2, layout: executive_summary, title: "全年招聘完成率 92% 同比提升 15 个百分点", key_point: "超年度目标 2 个百分点"}
+  - {idx: 3, layout: icon_stat_grid, title: "四项核心数据总结全年招聘成果", key_point: "入职/完成率/周期/留存"}
+  - {idx: 4, layout: case_study, title: "STAR 法则复盘年度最大亮点案例", key_point: "某关键岗位攻克过程"}
+  - {idx: 5, layout: scorecard, title: "OKR 四维度达成度评估", key_point: "招聘速度/质量/成本/体验"}
+  - {idx: 6, layout: grouped_bar, title: "季度招聘趋势对比揭示增长曲线", key_point: "Q1-Q4 入职趋势"}
+  - {idx: 7, layout: data_table, title: "经验沉淀与不足分析", key_point: "三条经验两点不足"}
+  - {idx: 8, layout: timeline, title: "下年度招聘规划关键里程碑", key_point: "Q1-Q4 重点方向"}
+  - {idx: 9, layout: closing, title: "谢谢", key_point: ""}

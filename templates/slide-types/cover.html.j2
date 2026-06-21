@@ -1,9 +1,29 @@
-<div class="slide-content" style="display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:120px 140px;">
-    <div class="top-accent-bar"></div>
-    <h1 class="fade-up" style="font-size:112px; line-height:1.15; margin-bottom:48px; max-width:1600px;">{{ slide.title }}</h1>
-    <p class="fade-up" style="font-size:44px; color:var(--hw-body); margin-bottom:80px;">{{ slide.subtitle }}</p>
-    <div class="fade-up" style="margin-top:auto; font-size:28px; color:var(--hw-body);">
-        <span>{{ slide.author }}</span> · <span>{{ slide.date }}</span>
+<div class="slide-content" style="display:flex;flex-direction:column;justify-content:center;padding:0 130px;background:{% if slide.bg_image %}linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.55)), url('{{ slide.bg_image }}') center/cover{% else %}linear-gradient(135deg,#FFFFFF 0%,#FFF5F6 55%,rgba(207,10,44,.05) 100%){% endif %};position:relative;overflow:hidden;{% if slide.bg_image %}color:#fff;{% endif %}">
+    {# 华为标志：右侧细红色竖条 #}
+    <div style="position:absolute;right:0;top:0;width:12px;height:100%;background:linear-gradient(180deg,var(--hw-red) 0%,rgba(207,10,44,.15) 100%);"></div>
+    {# 左下角弧形红线装饰 #}
+    <svg style="position:absolute;left:80px;bottom:90px;width:240px;height:60px;" viewBox="0 0 240 60"><path d="M0 54 Q120 -6 240 54" fill="none" stroke="#CF0A2C" stroke-width="4" opacity="0.5"/></svg>
+
+    <div class="fade-up">
+        <div style="display:inline-block;font-size:20px;padding:8px 20px;background:var(--hw-red);color:#fff;border-radius:3px;margin-bottom:40px;font-weight:bold;">{{ slide.context | default(content.scenario | default('汇报')) }}</div>
     </div>
-    <div class="accent-bg-red fade-up" style="position:absolute; top:80px; right:80px; width:16px; height:160px; border-radius:2px;"></div>
+
+    <h1 class="fade-up" style="font-size:118px;line-height:1.1;letter-spacing:-0.02em;color:var(--hw-title);max-width:1500px;font-weight:bold;">{{ slide.title }}</h1>
+
+    {% if slide.subtitle %}
+    <div class="fade-up" style="margin-top:32px;max-width:1100px;">
+        <p style="font-size:32px;color:var(--hw-body);line-height:1.5;">{{ slide.subtitle }}</p>
+    </div>
+    {% endif %}
+
+    <div class="fade-up" style="margin-top:72px;display:flex;gap:64px;">
+        <div>
+            <div style="font-size:16px;letter-spacing:0.15em;color:var(--hw-red);font-weight:bold;text-transform:uppercase;">DATE</div>
+            <div style="font-size:26px;color:var(--hw-title);margin-top:8px;">{{ slide.date }}</div>
+        </div>
+        <div>
+            <div style="font-size:16px;letter-spacing:0.15em;color:var(--hw-red);font-weight:bold;text-transform:uppercase;">AUTHOR</div>
+            <div style="font-size:26px;color:var(--hw-title);margin-top:8px;">{{ slide.author }}</div>
+        </div>
+    </div>
 </div>
